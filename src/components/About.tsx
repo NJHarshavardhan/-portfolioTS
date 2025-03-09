@@ -27,11 +27,21 @@ export const About = () => {
           transition={{ delay: 0.2 }}
           className="text-xl text-gray-700 dark:text-gray-300 mb-12 leading-relaxed"
         >
-          Software engineer with 2+ years of experience building full-stack solutions using Flutter, React,
-          Node.js, and Shopify. Successfully developed cross-platform mobile apps for Android, iOS, and macOS,
-          along with web applications using Remix. Proficient in creating responsive UIs, integrating AWS
-          Lambda and Supabase cloud services, and solving complex technical challenges. Passionate about
-          writing clean, efficient code and building scalable, high-performance applications.
+        Software engineer with 2+ years of
+experience building full-stack
+solutions using Flutter, React,
+Node.js, and Shopify. Successfully
+developed cross-platform mobile
+apps for Android, iOS, and macOS,
+along with web applications using
+Remix. Proficient in creating
+responsive UIs, integrating AWS
+Lambda and Supabase cloud
+services, and solving complex
+technical challenges. Passionate
+about writing clean, efficient code
+and building scalable,
+high-performance applications.
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

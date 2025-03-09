@@ -60,7 +60,7 @@ export const Skills = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <motion.div
             variants={itemVariants}
-            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg"
+            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg transform transition-transform duration-300 hover:scale-105"
           >
             <div className="flex items-center gap-3 mb-6">
               <Code2 className="w-6 h-6 text-blue-600" />
@@ -73,7 +73,7 @@ export const Skills = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full"
+                  className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
                 </motion.span>
@@ -83,7 +83,7 @@ export const Skills = () => {
 
           <motion.div
             variants={itemVariants}
-            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg"
+            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg transform transition-transform duration-300 hover:scale-105"
           >
             <div className="flex items-center gap-3 mb-6">
               <Layout className="w-6 h-6 text-purple-600" />
@@ -96,7 +96,7 @@ export const Skills = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-full"
+                  className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
                 </motion.span>
@@ -106,7 +106,7 @@ export const Skills = () => {
 
           <motion.div
             variants={itemVariants}
-            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg"
+            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg transform transition-transform duration-300 hover:scale-105"
           >
             <div className="flex items-center gap-3 mb-6">
               <Server className="w-6 h-6 text-green-600" />
@@ -119,7 +119,7 @@ export const Skills = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full"
+                  className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
                 </motion.span>
@@ -129,7 +129,7 @@ export const Skills = () => {
 
           <motion.div
             variants={itemVariants}
-            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg"
+            className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg transform transition-transform duration-300 hover:scale-105"
           >
             <div className="flex items-center gap-3 mb-6">
               <Database className="w-6 h-6 text-red-600" />
@@ -142,7 +142,7 @@ export const Skills = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 rounded-full"
+                  className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
                 </motion.span>

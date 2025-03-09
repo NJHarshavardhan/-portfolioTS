@@ -96,15 +96,16 @@ export const Education = () => {
                       <Calendar className="w-4 h-4" />
                       <span>{edu.period}</span>
                     </div>
+                    
                     <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                       <MapPin className="w-4 h-4" />
                       <span>{edu.location}</span>
                     </div>
-                  </div>
-
-                  <p className="text-gray-700 dark:text-gray-300 font-medium px-3 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-lg inline-block">
+                    <p className="text-gray-700 dark:text-gray-300 font-medium px-3 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-lg inline-block">
                     {edu.grade}
                   </p>
+                  </div>
+
                 </div>
               </div>
             </motion.div>

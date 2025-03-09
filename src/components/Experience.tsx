@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Briefcase, Calendar, MapPin } from "lucide-react";
-
+import resumeFile from "../assets/Harsha-Resume.pdf"; 
+import { Download, Eye } from "lucide-react";
+const resumeUrl =resumeFile;
 const experienceData = [
   {
     company: "BINARYCHAKRA",
@@ -40,10 +42,16 @@ export const Experience = () => {
   return (
     <section id="experience" className="py-12 md:py-20 px-4 bg-gray-50 dark:bg-gray-800">
       <div className="max-w-5xl mx-auto">
-        <div className="flex justify-center">
+        <div className="flex justify-center items-center gap-4">
           <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-          Professional Experience
+            Professional Experience
           </h2>
+          <a href={resumeUrl} download className="text-purple-600 hover:text-blue-800">
+            <Download className="w-6 h-12 cursor-pointer font-bold" />
+          </a>
+          <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-blue-800">
+            <Eye className="w-6 h-12 cursor-pointer font-bold" />
+          </a>
         </div>
         <br/>
      <br/>

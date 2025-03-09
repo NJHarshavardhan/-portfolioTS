@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { ExternalLink, Github, Store } from "lucide-react";
+import { Globe, Smartphone, ShoppingBag ,Store,Apple } from "lucide-react"; // Import icons
 
 const projects = [
   {
     title: "STORE BLOG",
     type: "Full Stack",
-    link: "Shopify App Store",
+    link_1: "https://apps.shopify.com/storeblog-boost-your-store-seo",
+    icon_1: <i className="fab fa-shopify fa-2x text-green-600"></i>, 
+    icon_1_text:"Shopify App Store",
     description: [
       "AI-powered Shopify app for SEO-optimized blog articles",
       "OpenAI GPT integration with custom prompt engineering",
@@ -18,6 +20,12 @@ const projects = [
     title: "FILMPLACE",
     type: "Mobile App",
     technologies: "Flutter, Firebase, Stripe, Google Maps",
+    link_1: "https://play.google.com/store/apps/details?id=com.filmplace.app&pcampaignid=web_share",
+    link_2: "https://apps.apple.com/in/app/filmplace-film-locations/id1597538864",
+    icon_1: <i className="fab fa-android fa-2x text-green-600"></i>,
+    icon_2: <i className="fab fa-apple fa-2x text-gray-600"></i>,
+    icon_1_text:"Android",
+    icon_2_text:"App Store",
     description: [
       "Location booking platform for filmmakers",
       "Stripe payments with 15% error reduction",
@@ -29,6 +37,12 @@ const projects = [
     title: "CABBY",
     type: "Mobile App",
     technologies: "Flutter, Firebase, GeoLocator",
+    link_1: "https://play.google.com/store/apps/details?id=com.cron24.cabby&hl=en-IN",
+    link_2: "https://play.google.com/store/apps/details?id=com.cron24.cabbydriver&hl=en-IN",
+    icon_1:<i className="fab fa-android fa-2x text-green-600"></i>,
+    icon_2: <i className="fab fa-android fa-2x text-green-600"></i>,
+    icon_1_text:"Android",
+    icon_2_text:"Android",
     description: [
       "Full-featured ride-hailing platform",
       "Real-time GPS tracking with 30% better ETA",
@@ -112,6 +126,28 @@ export const Projects = () => {
                         </motion.li>
                       ))}
                     </ul>
+
+                    {/* Icons for Links */}
+                    <div className="flex gap-4 mt-4">
+                      {project.link_1 && (
+                        <button
+                          onClick={() => window.open(project.link_1, "_blank")}
+                          className="flex items-center gap-1 text-sm text-blue-500 hover:text-blue-700"
+                        >
+                          {project.icon_1}
+                          <span> {project.icon_1_text}</span>
+                        </button>
+                      )}
+                      {project.link_2 && (
+                        <button
+                          onClick={() => window.open(project.link_2, "_blank")}
+                          className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+                        >
+                          {project.icon_2}
+                          <span> {project.icon_2_text}</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               </motion.div>
