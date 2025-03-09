@@ -72,7 +72,8 @@ export const Skills = () => {
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ delay: index * 0.1, type: "spring", stiffness: 300 }}
                   className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
@@ -95,7 +96,8 @@ export const Skills = () => {
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ delay: index * 0.1, type: "spring", stiffness: 300 }}
                   className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
@@ -118,7 +120,8 @@ export const Skills = () => {
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ delay: index * 0.1, type: "spring", stiffness: 300 }}
                   className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
@@ -141,7 +144,8 @@ export const Skills = () => {
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ delay: index * 0.1, type: "spring", stiffness: 300 }}
                   className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
                 >
                   {skill}
