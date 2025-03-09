@@ -60,7 +60,7 @@ export const Education = () => {
           Education
         </h2>
 
-        <div className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {education.map((edu, index) => (
             <motion.div
               key={index}
