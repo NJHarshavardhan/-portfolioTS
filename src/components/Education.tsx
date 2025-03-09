@@ -75,7 +75,7 @@ export const Education = () => {
               <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700 
                            shadow-lg hover:shadow-2xl transition-all duration-300 
                            hover:scale-105 hover:border-blue-500 dark:hover:border-blue-400">
-                <div className="absolute -left-3 md:hidden w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600"></div>
+                <div className=""></div>
                 
                 <div className="flex items-center gap-4 mb-6">
                   <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
