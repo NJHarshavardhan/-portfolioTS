@@ -44,7 +44,7 @@ export const Experience = () => {
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-center items-center gap-4">
           <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-            Professional Experience
+             Experience
           </h2>
           <a href={resumeUrl} download className="text-purple-600 hover:text-blue-800">
             <Download className="w-6 h-12 cursor-pointer font-bold" />
