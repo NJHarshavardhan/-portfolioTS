@@ -1,6 +1,12 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Code, Smartphone, Monitor, Database, BrainCircuit } from 'lucide-react';
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import {
+  Code,
+  Smartphone,
+  Monitor,
+  Database,
+  BrainCircuit,
+} from "lucide-react";
 
 export const About = () => {
   const [ref, inView] = useInView({
@@ -12,27 +18,32 @@ export const About = () => {
     {
       icon: <Code className="w-8 h-8 text-blue-600 mx-auto mb-4" />,
       title: "Full Stack Web Development",
-      description: "Building scalable and performant web applications using React, Remix, and Node.js.",
+      description:
+        "Building scalable and performant web applications using React, Remix, and Node.js.",
     },
     {
       icon: <Smartphone className="w-8 h-8 text-purple-600 mx-auto mb-4" />,
       title: "Mobile App Development",
-      description: "Developing cross-platform mobile apps for Android and iOS using Flutter.",
+      description:
+        "Developing cross-platform mobile apps for Android and iOS using Flutter.",
     },
     {
       icon: <Monitor className="w-8 h-8 text-green-600 mx-auto mb-4" />,
       title: "macOS App Development",
-      description: "Creating macOS applications with a seamless native experience.",
+      description:
+        "Creating macOS applications with a seamless native experience.",
     },
     {
       icon: <Database className="w-8 h-8 text-orange-600 mx-auto mb-4" />,
       title: "Backend & API Development",
-      description: "Designing robust backend systems and REST/GraphQL APIs using Node.js, Python(Fast API) & Supabase.",
+      description:
+        "Designing robust backend systems and REST/GraphQL APIs using Node.js, Python(Fast API) & Supabase.",
     },
     {
       icon: <BrainCircuit className="w-8 h-8 text-red-600 mx-auto mb-4" />,
       title: "LLM & OpenAI Logic",
-      description: "Integrating AI-powered solutions, chat completion, and automation using OpenAI APIs.",
+      description:
+        "Integrating AI-powered solutions, chat completion, and automation using OpenAI APIs.",
     },
   ];
 
@@ -55,7 +66,13 @@ export const About = () => {
           transition={{ delay: 0.2 }}
           className="text-xl text-gray-700 dark:text-gray-300 mb-12 leading-relaxed"
         >
-          Software engineer with 2+ years of experience building full-stack solutions using Flutter, React, Node.js, and Shopify. Successfully developed cross-platform mobile apps for Android, iOS, and macOS, along with web applications using Remix. Proficient in creating responsive UIs, integrating AWS Lambda and Supabase cloud services, and solving complex technical challenges. Passionate about writing clean, efficient code and building scalable, high-performance applications.
+          I'm a software engineer with 2.5+ years of experience in full-stack
+          development using Flutter, React, Node.js, and Shopify. I’ve built
+          cross-platform apps, web apps with Remix, and integrated cloud
+          services like AWS Lambda and Supabase. I also work with LLMs, using
+          OpenAI’s Chat Completion API for AI-driven features. I enjoy building
+          scalable, high-performance applications with clean, efficient code.
+          Always eager to learn and explore new technologies.
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -69,7 +86,9 @@ export const About = () => {
             >
               {skill.icon}
               <h3 className="text-xl font-bold mb-2">{skill.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{skill.description}</p>
+              <p className="text-gray-600 dark:text-gray-400">
+                {skill.description}
+              </p>
             </motion.div>
           ))}
         </div>

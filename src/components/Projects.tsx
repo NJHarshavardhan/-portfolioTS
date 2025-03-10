@@ -18,6 +18,25 @@ const projects = [
     ],
   },
   {
+    title: "AI Image Generation API",
+    type: "Backend",
+    description: [
+      "Developed a FastAPI backend for AI-powered image generation",
+      "Handled prompt processing and image creation using Hugging Face models",
+      "Optimized API performance and response time for high scalability",
+    ],
+  },
+  {
+    title: "AI-Powered Notification App",
+    type: "Full Stack",
+    description: [
+      "Shopify-based app that generates AI-driven notifications to boost store sales",
+      "Uses OpenAI to analyze store data and suggest useful notifications",
+      "Kafka-based pub-sub architecture for real-time event processing",
+      "Sends notifications to merchants based on triggered webhooks",
+    ],
+  },
+  {
     title: "FILMPLACE",
     type: "Mobile App",
     technologies: "Flutter, Firebase, Stripe, Google Maps",
