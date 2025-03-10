@@ -74,11 +74,10 @@ export const Projects = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
+        className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
       >
         Featured Projects
       </motion.h2>
-
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         <div className="relative w-full max-w-5xl mx-auto h-[600px]">
           {projects.map((project, index) => {
