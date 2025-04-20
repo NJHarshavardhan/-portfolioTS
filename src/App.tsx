@@ -11,6 +11,7 @@ import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import Clarity from "@microsoft/clarity";
 import PortfolioJsonLd from "./components/PortfolioJsonLd"; 
+import ChatBot from "./components/ChatBot";
 function App() {
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -39,6 +40,7 @@ function App() {
         <Education />
         <Contact />
         <Footer />
+        <ChatBot />
       </main>
     </div>
   );
