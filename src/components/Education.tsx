@@ -1,23 +1,8 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { GraduationCap, Calendar, MapPin } from 'lucide-react';
-
-const education = [
-  {
-    school: "K.L.N. COLLEGE OF ENGINEERING",
-    degree: "Master of Computer Applications",
-    period: "April 2022",
-    location: "Madurai",
-    grade: "CGPA: 9.1 / 10"
-  },
-  {
-    school: "SOURASHTRA COLLEGE",
-    degree: "B.Sc. in Computer Science",
-    period: "April 2020",
-    location: "Madurai",
-    grade: "CGPA: 7.1 / 10"
-  }
-];
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { GraduationCap, Calendar, MapPin } from "lucide-react";
+import data from "../config/data.json";
+const education = data.education;
 
 export const Education = () => {
   const [ref, inView] = useInView({
@@ -30,9 +15,9 @@ export const Education = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -42,9 +27,9 @@ export const Education = () => {
       opacity: 1,
       transition: {
         type: "spring",
-        stiffness: 100
-      }
-    }
+        stiffness: 100,
+      },
+    },
   };
 
   return (
@@ -72,11 +57,13 @@ export const Education = () => {
               variants={itemVariants}
               className="relative group"
             >
-              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700 
+              <div
+                className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700 
                            shadow-lg hover:shadow-2xl transition-all duration-300 
-                           hover:scale-105 hover:border-blue-500 dark:hover:border-blue-400">
+                           hover:scale-105 hover:border-blue-500 dark:hover:border-blue-400"
+              >
                 <div className=""></div>
-                
+
                 <div className="flex items-center gap-4 mb-6">
                   <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
                     <GraduationCap className="w-8 h-8 text-blue-600 dark:text-blue-400" />
@@ -90,22 +77,21 @@ export const Education = () => {
                   <p className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                     {edu.degree}
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-6 text-gray-600 dark:text-gray-400">
                     <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                       <Calendar className="w-4 h-4" />
                       <span>{edu.period}</span>
                     </div>
-                    
+
                     <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
                       <MapPin className="w-4 h-4" />
                       <span>{edu.location}</span>
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 font-medium px-3 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-lg inline-block">
-                    {edu.grade}
-                  </p>
+                      {edu.grade}
+                    </p>
                   </div>
-
                 </div>
               </div>
             </motion.div>

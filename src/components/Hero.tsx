@@ -1,16 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Linkedin, Mail, Phone } from "lucide-react";
 import { useState, useEffect } from "react";
-
+import data from "../config/data.json";
 export const Hero = () => {
   const [titleIndex, setTitleIndex] = useState(0);
-  const titles = [
-    "Software Engineer",
-    "Full Stack Developer",
-    "Flutter Developer",
-    "Professional Coder",
-    "AI-powered Developer",
-  ];
+  const titles = data.titles;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,7 +40,7 @@ export const Hero = () => {
             ease: "linear",
           }}
         >
-          Harsha Vardhan NJ
+          {data.name}
         </motion.h1>
 
         <div className="h-8 mb-8">
@@ -71,7 +65,8 @@ export const Hero = () => {
           transition={{ delay: 0.6 }}
         >
           <motion.a
-            href="https://github.com/NJHarshavardhan"
+            href={data.contact.github}
+            target="_blank"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors duration-300"
@@ -79,7 +74,8 @@ export const Hero = () => {
             <Github className="w-6 h-6" />
           </motion.a>
           <motion.a
-            href="https://www.linkedin.com/in/harshavardhannj/"
+            href={data.contact.linkedin}
+            target="_blank"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors duration-300"
@@ -87,7 +83,8 @@ export const Hero = () => {
             <Linkedin className="w-6 h-6" />
           </motion.a>
           <motion.a
-            href="mailto:harshavardhannj@gmail.com"
+            href={`mailto:${data.contact.email}`}
+            target="_blank"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors duration-300"
@@ -95,9 +92,9 @@ export const Hero = () => {
             <Mail className="w-6 h-6" />
           </motion.a>
           <motion.a
-            href="tel:+919976871783"
-            whileHover={{ scale: 1.1 }}
+            href={`tel:${data.contact.phone}`}
             target="_blank"
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors duration-300"
           >

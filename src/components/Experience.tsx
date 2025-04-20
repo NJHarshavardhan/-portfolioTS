@@ -2,38 +2,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Briefcase, Calendar, MapPin, Download, Eye } from "lucide-react";
 import resumeFile from "../assets/Harsha-Resume.pdf";
-
+import data from "../config/data.json";
 const resumeUrl = resumeFile;
-
-const experienceData = [
-  {
-    company: "BINARYCHAKRA",
-    role: "Software Engineer",
-    period: "Oct 2023 - Present",
-    location: "Madurai",
-    achievements: [
-      "Developed and deployed multiple successful Shopify apps using Polaris, Remix, React, and Node.js, enhancing client satisfaction and user engagement.",
-      "Built cross-platform macOS applications with Flutter, reducing development time and maintenance efforts.",
-      "Designed and optimized real-time data systems using MQTT protocols, improving application performance by 30%.",
-      "Developed and optimized API logic using Python FastAPI to enhance performance and integrate AI models seamlessly.",
-      "Collaborated with cross-functional teams to integrate APIs, third-party services, and cloud solutions.",
-    ],
-  },
-  {
-    company: "CRON24 TECHNOLOGIES",
-    role: "Mobile App Developer",
-    period: "Mar 2022 – Sept 2023",
-    location: "Madurai",
-    achievements: [
-      "Designed and implemented efficient state management systems for Android & iOS applications, ensuring smooth functionality.",
-      "Developed and maintained mobile apps using Dart, Flutter, and integrated APIs with JSON for dynamic data handling.",
-      "Integrated key features like Google Maps API, Stripe payments, Firebase push notifications, Firebase Realtime Database, Google Analytics, and Google Ads",
-      "Managed app performance, debugging, and deployment.",
-      "Handled multilingual content updates to improve localization and user engagement.",
-    ],
-  },
-];
-
+const experienceData = data.experience;
 export const Experience = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({

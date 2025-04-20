@@ -7,6 +7,7 @@ import {
   Database,
   BrainCircuit,
 } from "lucide-react";
+import data from "../config/data.json";
 
 export const About = () => {
   const [ref, inView] = useInView({
@@ -14,38 +15,28 @@ export const About = () => {
     threshold: 0.1,
   });
 
-  const skills = [
-    {
-      icon: <Code className="w-8 h-8 text-blue-600 mx-auto mb-4" />,
-      title: "Full Stack Web Development",
-      description:
-        "Building scalable and performant web applications using React, Remix, and Node.js.",
-    },
-    {
-      icon: <Smartphone className="w-8 h-8 text-purple-600 mx-auto mb-4" />,
-      title: "Mobile App Development",
-      description:
-        "Developing cross-platform mobile apps for Android and iOS using Flutter.",
-    },
-    {
-      icon: <Monitor className="w-8 h-8 text-green-600 mx-auto mb-4" />,
-      title: "macOS App Development",
-      description:
-        "Creating macOS applications with a seamless native experience.",
-    },
-    {
-      icon: <Database className="w-8 h-8 text-orange-600 mx-auto mb-4" />,
-      title: "Backend & API Development",
-      description:
-        "Designing robust backend systems and REST/GraphQL APIs using Node.js, Python(Fast API) & Supabase.",
-    },
-    {
-      icon: <BrainCircuit className="w-8 h-8 text-red-600 mx-auto mb-4" />,
-      title: "LLM & OpenAI Logic",
-      description:
-        "Integrating AI-powered solutions, chat completion, and automation using OpenAI APIs.",
-    },
-  ];
+  const iconMap: Record<string, JSX.Element> = {
+    "Full Stack Web Development": (
+      <Code className="w-8 h-8 text-blue-600 mx-auto mb-4" />
+    ),
+    "Mobile App Development": (
+      <Smartphone className="w-8 h-8 text-purple-600 mx-auto mb-4" />
+    ),
+    "macOS App Development": (
+      <Monitor className="w-8 h-8 text-green-600 mx-auto mb-4" />
+    ),
+    "Backend & API Development": (
+      <Database className="w-8 h-8 text-orange-600 mx-auto mb-4" />
+    ),
+    "LLM & OpenAI Logic": (
+      <BrainCircuit className="w-8 h-8 text-red-600 mx-auto mb-4" />
+    ),
+  };
+
+  const rolesWithIcons = data.roles.map((role) => ({
+    ...role,
+    icon: iconMap[role.title] || null,
+  }));
 
   return (
     <section id="about" className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
@@ -66,17 +57,11 @@ export const About = () => {
           transition={{ delay: 0.2 }}
           className="text-xl text-gray-700 dark:text-gray-300 mb-12 leading-relaxed"
         >
-          I'm a software engineer with 2.5+ years of experience in full-stack
-          development using Flutter, React, Node.js, and Shopify. I’ve built
-          cross-platform apps, web apps with Remix, and integrated cloud
-          services like AWS Lambda and Supabase. I also work with LLMs, using
-          OpenAI’s Chat Completion API for AI-driven features. I enjoy building
-          scalable, high-performance applications with clean, efficient code.
-          Always eager to learn and explore new technologies.
+          {data.about}
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skills.map((skill, index) => (
+          {rolesWithIcons.map((skill, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}

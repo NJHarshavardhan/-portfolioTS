@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { useInView } from 'react-intersection-observer';
-
+import data from "../config/data.json";
 export const Contact = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -22,7 +22,7 @@ export const Contact = () => {
         'service_ddjauvt',
         'template_uyqfuxo',
         {
-          to_email: 'harshavardhanNJ@gmail.com',
+          to_email: data.contact.email,
           from_email: email,
           message,
         },

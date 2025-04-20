@@ -1,80 +1,15 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { useInView } from "react-intersection-observer";
+import data from "../config/data.json";
 import { Store, Smartphone, Apple } from "lucide-react";
 
-const projects = [
-  {
-    title: "STORE BLOG",
-    type: "Full Stack",
-    link_1: "https://apps.shopify.com/storeblog-boost-your-store-seo",
-    icon_1: <Store className="w-6 h-6 text-green-600" />,
-    icon_1_text: "Shopify App Store",
-    description: [
-      "AI-powered Shopify app for SEO-optimized blog articles",
-      "OpenAI GPT integration with custom prompt engineering",
-      "AWS Cron for automated publishing with multi-language support",
-      "Hugging Face models for AI-generated images",
-    ],
-  },
-  {
-    title: "AI Image Generation API",
-    type: "Backend",
-    description: [
-      "Developed a FastAPI backend for AI-powered image generation",
-      "Handled prompt processing and image creation using Hugging Face models",
-      "Optimized API performance and response time for high scalability",
-    ],
-  },
-  {
-    title: "AI-Powered Notification App",
-    type: "Full Stack",
-    description: [
-      "Shopify-based app that generates AI-driven notifications to boost store sales",
-      "Uses OpenAI to analyze store data and suggest useful notifications",
-      "Kafka-based pub-sub architecture for real-time event processing",
-      "Sends notifications to merchants based on triggered webhooks",
-    ],
-  },
-  {
-    title: "FILMPLACE",
-    type: "Mobile App",
-    technologies: "Flutter, Firebase, Stripe, Google Maps",
-    link_1:
-      "https://play.google.com/store/apps/details?id=com.filmplace.app&pcampaignid=web_share",
-    link_2:
-      "https://apps.apple.com/in/app/filmplace-film-locations/id1597538864",
-    icon_1: <Smartphone className="w-6 h-6 text-green-600" />,
-    icon_2: <Apple className="w-6 h-6 text-gray-600" />,
-    icon_1_text: "Android",
-    icon_2_text: "App Store",
-    description: [
-      "Location booking platform for filmmakers",
-      "Stripe payments with 15% error reduction",
-      "Firebase integration with 30% engagement increase",
-      "Multi-platform social login implementation",
-    ],
-  },
-  {
-    title: "CABBY",
-    type: "Mobile App",
-    technologies: "Flutter, Firebase, GeoLocator",
-    link_1:
-      "https://play.google.com/store/apps/details?id=com.cron24.cabby&hl=en-IN",
-    link_2:
-      "https://play.google.com/store/apps/details?id=com.cron24.cabbydriver&hl=en-IN",
-    icon_1: <Smartphone className="w-6 h-6 text-green-600" />,
-    icon_2: <Smartphone className="w-6 h-6 text-green-600" />,
-    icon_1_text: "Android",
-    icon_2_text: "Android",
-    description: [
-      "Full-featured ride-hailing platform",
-      "Real-time GPS tracking with 30% better ETA",
-      "Background services with 10% crash reduction",
-      "Multi-language support for global reach",
-    ],
-  },
-];
+const projects = data.projects;
+
+const iconMap: { [key: string]: JSX.Element } = {
+  Store: <Store className="w-6 h-6 text-green-600" />,
+  Smartphone: <Smartphone className="w-6 h-6 text-green-600" />,
+  Apple: <Apple className="w-6 h-6 text-gray-600" />,
+};
 
 export const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -160,10 +95,11 @@ export const Projects = () => {
                         onClick={() => window.open(project.link_1, "_blank")}
                         className="flex items-center gap-2 text-sm font-medium text-blue-500 hover:text-blue-700 transition-colors"
                       >
-                        {project.icon_1}
+                        {iconMap[project.icon_1]}
                         <span>{project.icon_1_text}</span>
                       </motion.button>
                     )}
+
                     {project.link_2 && (
                       <motion.button
                         whileHover={{ scale: 1.05 }}

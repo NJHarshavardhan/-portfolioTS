@@ -1,0 +1,174 @@
+{
+  "name": "Harsha Vardhan",
+  "titles": [
+    "Software Engineer",
+    "Full Stack Developer",
+    "Flutter Developer",
+    "Professional Coder",
+    "AI-powered Developer"
+  ],
+  "location": "Madurai, India",
+  "experience_in_years": "2.5+ years",
+  "about": "Software engineer with experience in full-stack development using Flutter, React, Node.js, Shopify, AWS, Supabase, and OpenAI APIs. Passionate about building scalable, performant, AI-integrated applications across web, mobile, and desktop platforms.",
+  "roles": [
+    {
+      "title": "Full Stack Web Development",
+      "description": "Building scalable and performant web applications using React, Remix, and Node.js."
+    },
+    {
+      "title": "Mobile App Development",
+      "description": "Developing cross-platform mobile apps for Android and iOS using Flutter."
+    },
+    {
+      "title": "macOS App Development",
+      "description": "Creating macOS applications with a seamless native experience."
+    },
+    {
+      "title": "Backend & API Development",
+      "description": "Designing robust backend systems and REST/GraphQL APIs using Node.js, Python(Fast API) & Supabase."
+    },
+    {
+      "title": "LLM & OpenAI Logic",
+      "description": "Integrating AI-powered solutions, chat completion, and automation using OpenAI APIs."
+    }
+  ],
+  "experience": [
+    {
+      "company": "BINARYCHAKRA",
+      "role": "Software Engineer",
+      "period": "Oct 2023 - Present",
+      "location": "Madurai",
+      "achievements": [
+        "Developed and deployed multiple successful Shopify apps using Polaris, Remix, React, and Node.js, enhancing client satisfaction and user engagement.",
+        "Built cross-platform macOS applications with Flutter, reducing development time and maintenance efforts.",
+        "Designed and optimized real-time data systems using MQTT protocols, improving application performance by 30%.",
+        "Developed and optimized API logic using Python FastAPI to enhance performance and integrate AI models seamlessly.",
+        "Collaborated with cross-functional teams to integrate APIs, third-party services, and cloud solutions."
+      ]
+    },
+    {
+      "company": "CRON24 TECHNOLOGIES",
+      "role": "Mobile App Developer",
+      "period": "Mar 2022 – Sept 2023",
+      "location": "Madurai",
+      "achievements": [
+        "Designed and implemented efficient state management systems for Android & iOS applications, ensuring smooth functionality.",
+        "Developed and maintained mobile apps using Dart, Flutter, and integrated APIs with JSON for dynamic data handling.",
+        "Integrated key features like Google Maps API, Stripe payments, Firebase push notifications, Firebase Realtime Database, Google Analytics, and Google Ads",
+        "Managed app performance, debugging, and deployment.",
+        "Handled multilingual content updates to improve localization and user engagement."
+      ]
+    }
+  ],
+  "technical_skills": {
+    "languages": ["JavaScript", "Dart", "Python (FastAPI)", "HTML", "CSS"],
+    "frameworks": ["Flutter", "React", "Remix", "Express"],
+    "apis": ["REST API", "GraphQL", "Google Maps API", "JSON"],
+    "platforms": [
+      "Shopify Polaris",
+      "AWS S3",
+      "AWS Lambda",
+      "AWS API Gateway",
+      "Firebase",
+      "Git"
+    ],
+    "databases": ["Supabase", "MongoDB", "MySQL", "Firebase Realtime Database"],
+    "ai_integration": [
+      "OpenAI Chat Completion",
+      "Azure OpenAI",
+      "Hugging Face"
+    ],
+    "messaging": ["Kafka", "MQTT"]
+  },
+  "projects": [
+    {
+      "title": "STORE BLOG",
+      "type": "Full Stack",
+      "link_1": "https://apps.shopify.com/storeblog-boost-your-store-seo",
+      "icon_1": "Store",
+      "icon_1_text": "Shopify App Store",
+      "description": [
+        "AI-powered Shopify app for SEO-optimized blog articles",
+        "OpenAI GPT integration with custom prompt engineering",
+        "AWS Cron for automated publishing with multi-language support",
+        "Hugging Face models for AI-generated images"
+      ]
+    },
+    {
+      "title": "AI Image Generation API",
+      "type": "Backend",
+      "description": [
+        "Developed a FastAPI backend for AI-powered image generation",
+        "Handled prompt processing and image creation using Hugging Face models",
+        "Optimized API performance and response time for high scalability"
+      ]
+    },
+    {
+      "title": "AI-Powered Notification App",
+      "type": "Full Stack",
+      "description": [
+        "Shopify-based app that generates AI-driven notifications to boost store sales",
+        "Uses OpenAI to analyze store data and suggest useful notifications",
+        "Kafka-based pub-sub architecture for real-time event processing",
+        "Sends notifications to merchants based on triggered webhooks"
+      ]
+    },
+    {
+      "title": "FILMPLACE",
+      "type": "Mobile App",
+      "technologies": "Flutter, Firebase, Stripe, Google Maps",
+      "link_1": "https://play.google.com/store/apps/details?id=com.filmplace.app&pcampaignid=web_share",
+      "link_2": "https://apps.apple.com/in/app/filmplace-film-locations/id1597538864",
+      "icon_1": "Smartphone",
+      "icon_2": "Apple",
+      "icon_1_text": "Android",
+      "icon_2_text": "App Store",
+      "description": [
+        "Location booking platform for filmmakers",
+        "Stripe payments with 15% error reduction",
+        "Firebase integration with 30% engagement increase",
+        "Multi-platform social login implementation"
+      ]
+    },
+    {
+      "title": "CABBY",
+      "type": "Mobile App",
+      "technologies": "Flutter, Firebase, GeoLocator",
+      "link_1": "https://play.google.com/store/apps/details?id=com.cron24.cabby&hl=en-IN",
+      "link_2": "https://play.google.com/store/apps/details?id=com.cron24.cabbydriver&hl=en-IN",
+      "icon_1": "Smartphone",
+      "icon_2": "Smartphone",
+      "icon_1_text": "Android",
+      "icon_2_text": "Android",
+      "description": [
+        "Full-featured ride-hailing platform",
+        "Real-time GPS tracking with 30% better ETA",
+        "Background services with 10% crash reduction",
+        "Multi-language support for global reach"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "K.L.N. COLLEGE OF ENGINEERING",
+      "degree": "Master of Computer Applications",
+      "period": "April 2022",
+      "location": "Madurai",
+      "grade": "CGPA: 9.1 / 10"
+    },
+    {
+      "school": "SOURASHTRA COLLEGE",
+      "degree": "B.Sc. in Computer Science",
+      "period": "April 2020",
+      "location": "Madurai",
+      "grade": "CGPA: 7.1 / 10"
+    }
+  ],
+  "contact": {
+    "email": "harshavardhannj@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/harshavardhannj/",
+    "portfolio_url": "https://harsha-pro.vercel.app/",
+    "github": "https://github.com/NJHarshavardhan",
+    "phone": "919976871783"
+  }
+}
