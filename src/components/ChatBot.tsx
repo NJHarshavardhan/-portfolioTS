@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { X, MessageCircle } from "lucide-react";
 
+// Simulated data (This would be imported from your data.json)
+import data from "../config/data.json";
+
 type Message = { text: string; from: "user" | "bot" };
 
 const ChatBot: React.FC = () => {
@@ -19,7 +22,46 @@ const ChatBot: React.FC = () => {
 
     // Simulate bot typing
     setTimeout(() => {
-      const botReply: Message = { text: "Thanks for your message!", from: "bot" };
+      let botReply: Message = {
+        text: "I didn't quite catch that. Could you rephrase?",
+        from: "bot",
+      };
+
+      // Analyze user input and generate a response
+      if (input.toLowerCase().includes("name")) {
+        botReply = { text: `My name is ${data.name}.`, from: "bot" };
+      } else if (input.toLowerCase().includes("location")) {
+        botReply = { text: `I am based in ${data.location}.`, from: "bot" };
+      } else if (
+        input.toLowerCase().includes("email") ||
+        input.toLowerCase().includes("mail")
+      ) {
+        botReply = {
+          text: `You can reach me at ${data.contact.email}.`,
+          from: "bot",
+        };
+      } else if (
+        input.toLowerCase().includes("phone") ||
+        input.toLowerCase().includes("number")
+      ) {
+        botReply = {
+          text: `My phone number is ${data.contact.phone}.`,
+          from: "bot",
+        };
+      } else if (input.toLowerCase().includes("github")) {
+        botReply = {
+          text: `You can check out my GitHub profile here: ${data.contact.github}`,
+          from: "bot",
+        };
+      } else if (input.toLowerCase().includes("linkedin")) {
+        botReply = {
+          text: `Here is my LinkedIn: ${data.contact.linkedin}`,
+          from: "bot",
+        };
+      } else if (input.toLowerCase().includes("role")) {
+        botReply = { text: `I am a ${data.roles}.`, from: "bot" };
+      }
+
       setMessages((prev) => [...prev, botReply]);
       setIsBotTyping(false);
     }, 1500);
