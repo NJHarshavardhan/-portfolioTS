@@ -1,6 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { X, MessageCircle } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { MessageCircle, X, Send } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import data from "../config/data.json";
+
 type Message = { text: string; from: "user" | "bot" };
 
 const ChatBot: React.FC = () => {
@@ -8,43 +10,46 @@ const ChatBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to the latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isBotTyping]);
 
   const handleSend = async () => {
     if (!input.trim() || isBotTyping) return;
-
     const userMessage: Message = { text: input, from: "user" };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsBotTyping(true);
+    let chatbotName = data.name;
 
     try {
-      // Include the system message each time
+      const currentDate = new Date().toISOString().split("T")[0]; // e.g. "2025-04-21"
       const systemMessage = {
         role: "system",
         content: `
-          You are a specialized information assistant named "${data.name}".
+          🤖 Hey there! You're a smart and helpful chatbot named **"${chatbotName}"**.
+      
+          🛠️ PLEASE FOLLOW THESE RULES STRICTLY:
+          1️⃣ Use ONLY the info below. No outside knowledge.
+          2️⃣ If something isn't mentioned, say: "I don't have information on that."
+          3️⃣ Never say you're an AI or model — just be "${chatbotName}".
+          4️⃣ ❌ Don't guess or make anything up.
+          5️⃣ 🙊 Don't mention "data" or "dataset" in your replies.
+          6️⃣ If asked your name, reply only: "${chatbotName}".
+          7️⃣ 📅 Today's date is: ${currentDate}
+          - Answer DIRECTLY (no lengthy intros)
+          - Be FRIENDLY (use occasional emojis)
+          ✅ Keep your tone friendly, human, and to the point.
+          ✅ Use emojis where it feels natural and makes things easier to read.
           
-          CRITICAL INSTRUCTIONS (YOU MUST FOLLOW THESE EXACTLY):
-          1. Your ONLY knowledge comes from the DATA section below. DO NOT use any other information.
-          2. If asked about something not in the DATA, respond EXACTLY with: "I don't have information on that."
-          3. NEVER identify yourself as an AI, language model, ChatGPT, or anything besides your name in the DATA.
-          4. NEVER make up information that isn't explicitly in the DATA.
-          5. DO NOT reference "the data" or "the dataset" in your responses.
-          6. When asked your name, respond only with your name from the DATA.
-          
-          === DATA (YOUR ONLY SOURCE OF INFORMATION) ===
+          === 📦 INFO YOU CAN USE ===
           ${JSON.stringify(data, null, 2)}
-          === END OF DATA ===
+          === ✅ END OF INFO ===
         `,
       };
 
-      // The system message will always be part of the messages, regardless of whether it's the first interaction
       const chatPayload = {
         model: "openchat/openchat-3.5-0106",
         messages: [
@@ -62,8 +67,7 @@ const ChatBot: React.FC = () => {
         {
           method: "POST",
           headers: {
-            Authorization:
-              "Bearer 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",
+            Authorization: `Bearer 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`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(chatPayload),
@@ -71,78 +75,132 @@ const ChatBot: React.FC = () => {
       );
 
       const responseData = await response.json();
-
       const botText =
-        responseData.choices?.[0]?.message?.content ||
-        "Hmm... I didn't get that.";
+        responseData.choices?.[0]?.message?.content || "No response.";
       const botReply: Message = { text: botText, from: "bot" };
       setMessages((prev) => [...prev, botReply]);
-    } catch (err) {
+    } catch {
       setMessages((prev) => [
         ...prev,
-        { text: "Oops! Something went wrong.", from: "bot" },
+        { text: "Error getting response.", from: "bot" },
       ]);
     } finally {
       setIsBotTyping(false);
     }
   };
 
+  // Show welcome message when there are no messages
+  const EmptyState = () => (
+    <div className="flex flex-col items-center justify-center h-full text-center px-4 py-6 text-gray-500 dark:text-gray-400">
+      <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-1">
+        Welcome to Harsha chat
+      </h3>
+
+      <div className="flex flex-wrap justify-center gap-2 max-w-xs">
+        {["Tell me about your self?", "Can you describe your experience?"].map(
+          (suggestion) => (
+            <button
+              key={suggestion}
+              onClick={() => {
+                setInput(suggestion);
+                setTimeout(() => handleSend(), 100);
+              }}
+              className="px-3 py-1.5 bg-gray-100 dark:bg-slate-700 text-xs rounded-full hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors text-gray-700 dark:text-gray-300"
+            >
+              {suggestion}
+            </button>
+          )
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <>
-      {/* Floating Button */}
-      <button
+      <motion.button
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-4 right-4 bg-gradient-to-br from-purple-600 to-pink-500 text-white p-3 rounded-full shadow-lg z-50"
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-3 rounded-full shadow-xl hover:scale-105 transition-all"
       >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
-      </button>
+        {isOpen ? <X size={20} /> : <MessageCircle size={20} />}
+      </motion.button>
 
-      {/* Chat Popup */}
-      {isOpen && (
-        <div className="fixed bottom-20 right-6 w-80 max-h-[70vh] bg-white dark:bg-slate-900 border dark:border-slate-700 shadow-2xl rounded-xl flex flex-col z-50 overflow-hidden">
-          <div className="p-4 border-b dark:border-slate-700 font-bold text-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-            💬 Ask me 
-          </div>
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 custom-scroll">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`p-3 rounded-2xl text-sm max-w-[75%] whitespace-pre-wrap transition-all duration-300 ${
-                  msg.from === "user"
-                    ? "bg-blue-600 text-white self-end ml-auto animate-fade-in"
-                    : "bg-gray-200 dark:bg-slate-700 text-gray-900 dark:text-white self-start animate-fade-in"
-                }`}
-              >
-                {msg.text}
-              </div>
-            ))}
-            {isBotTyping && (
-              <div className="bg-gray-200 dark:bg-slate-700 text-gray-600 dark:text-gray-300 p-3 rounded-2xl max-w-[75%] text-sm animate-pulse self-start">
-                Typing<span className="dot-flash">...</span>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-          <div className="p-3 border-t dark:border-slate-700 flex items-center gap-2 bg-slate-50 dark:bg-slate-800">
-            <input
-              className="flex-1 px-3 py-2 rounded-full border dark:bg-slate-700 dark:text-white text-sm outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Type a message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              disabled={isBotTyping}
-            />
-            {input.trim() && !isBotTyping && (
-              <button
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-16 right-4 w-[85vw] max-w-xs h-[50vh] flex flex-col backdrop-blur-xl bg-white/30 dark:bg-slate-800/30 rounded-xl border border-white/20 shadow-xl overflow-hidden z-50"
+          >
+            <div className="p-2.5 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-semibold">
+              💬 Welcome to chat
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-2.5 py-2 space-y-2 custom-scrollbar text-xs relative">
+              {messages.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  {messages.map((msg, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{
+                        opacity: 0,
+                        x: msg.from === "user" ? 20 : -20,
+                      }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30,
+                      }}
+                      className={`max-w-[80%] px-2.5 py-1.5 rounded-lg whitespace-pre-wrap ${
+                        msg.from === "user"
+                          ? "bg-blue-600 text-white self-end ml-auto"
+                          : "bg-white dark:bg-slate-700 text-gray-900 dark:text-white self-start"
+                      }`}
+                    >
+                      {msg.text}
+                    </motion.div>
+                  ))}
+                </>
+              )}
+
+              {isBotTyping && (
+                <div className="self-start flex gap-1 items-center px-2.5 py-1.5 bg-white dark:bg-slate-700 text-xs rounded-lg">
+                  <span className="dot-wave">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <div className="flex items-center gap-1.5 p-2 border-t dark:border-slate-700 bg-white/70 dark:bg-slate-900/70">
+              <input
+                className="flex-1 bg-transparent border-none outline-none text-xs px-1.5 text-black dark:text-white placeholder-gray-500"
+                placeholder="Type a message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                disabled={isBotTyping}
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
                 onClick={handleSend}
-                className="bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-blue-700 transition"
+                disabled={!input.trim() || isBotTyping}
+                className="p-1.5 text-white bg-pink-600 hover:bg-pink-700 rounded-full transition"
               >
-                Send
-              </button>
-            )}
-          </div>
-        </div>
-      )}
+                <Send size={14} />
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
