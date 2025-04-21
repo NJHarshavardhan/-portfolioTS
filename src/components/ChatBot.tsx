@@ -232,7 +232,7 @@ const ChatBot: React.FC = () => {
       {isOpen && (
         <div className="fixed bottom-20 right-6 w-80 max-h-[70vh] bg-white dark:bg-slate-900 border dark:border-slate-700 shadow-2xl rounded-xl flex flex-col z-50 overflow-hidden">
           <div className="p-4 border-b dark:border-slate-700 font-bold text-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-            💬 Chat with us
+            💬 Chat with me
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 custom-scroll">
             {messages.map((msg, index) => (
