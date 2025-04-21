@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { X, MessageCircle } from "lucide-react";
-
-// Simulated data (This would be imported from your data.json)
 import data from "../config/data.json";
-
 type Message = { text: string; from: "user" | "bot" };
+
+// Define the type for each experience entry
+type ExperienceEntry = {
+  company: string;
+  role: string;
+  period: string;
+  location: string;
+  achievements: string[];
+};
+
+// Update the type for skillExperience to be an array of ExperienceEntry
+const skillExperience: ExperienceEntry[] = data.experience; // Ensure this matches your data structure
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  // Auto-scroll to the latest message
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isBotTyping]);
 
   const handleSend = () => {
     if (!input.trim() || isBotTyping) return;
@@ -27,39 +42,175 @@ const ChatBot: React.FC = () => {
         from: "bot",
       };
 
-      // Analyze user input and generate a response
-      if (input.toLowerCase().includes("name")) {
-        botReply = { text: `My name is ${data.name}.`, from: "bot" };
-      } else if (input.toLowerCase().includes("location")) {
-        botReply = { text: `I am based in ${data.location}.`, from: "bot" };
-      } else if (
-        input.toLowerCase().includes("email") ||
-        input.toLowerCase().includes("mail")
+      const lowerInput = input.toLowerCase();
+
+      // Greeting
+      if (
+        ["hi", "hello", "hey", "greetings"].some((greet) =>
+          lowerInput.includes(greet)
+        )
       ) {
+        botReply = {
+          text: "Hey there! 👋 How can I assist you today?",
+          from: "bot",
+        };
+      }
+      // Who is Harsha
+      else if (
+        lowerInput.includes("who is harsha") ||
+        lowerInput.includes("about you") ||
+        lowerInput.includes("yourself") ||
+        lowerInput.includes("who are you")
+      ) {
+        botReply = {
+          text: `I'm Harsha Vardhan — ${data.about}`,
+          from: "bot",
+        };
+      }
+      // Name
+      else if (lowerInput.includes("name")) {
+        botReply = { text: `My name is ${data.name}.`, from: "bot" };
+      }
+      // Location
+      else if (lowerInput.includes("location")) {
+        botReply = { text: `I'm based in ${data.location}.`, from: "bot" };
+      }
+      // Email
+      else if (lowerInput.includes("email") || lowerInput.includes("mail")) {
         botReply = {
           text: `You can reach me at ${data.contact.email}.`,
           from: "bot",
         };
-      } else if (
-        input.toLowerCase().includes("phone") ||
-        input.toLowerCase().includes("number")
+      }
+      // Phone
+      else if (
+        lowerInput.includes("phone") ||
+        lowerInput.includes("number") ||
+        lowerInput.includes("contact")
       ) {
         botReply = {
           text: `My phone number is ${data.contact.phone}.`,
           from: "bot",
         };
-      } else if (input.toLowerCase().includes("github")) {
+      }
+      // GitHub
+      else if (lowerInput.includes("github")) {
         botReply = {
           text: `You can check out my GitHub profile here: ${data.contact.github}`,
           from: "bot",
         };
-      } else if (input.toLowerCase().includes("linkedin")) {
+      }
+      // LinkedIn
+      else if (lowerInput.includes("linkedin")) {
         botReply = {
-          text: `Here is my LinkedIn: ${data.contact.linkedin}`,
+          text: `Here's my LinkedIn: ${data.contact.linkedin}`,
           from: "bot",
         };
-      } else if (input.toLowerCase().includes("role")) {
-        botReply = { text: `I am a ${data.roles}.`, from: "bot" };
+      }
+      // Role or Title
+      else if (lowerInput.includes("role") || lowerInput.includes("job")) {
+        botReply = {
+          text: `I work as a ${data.titles.join(", ")}.`,
+          from: "bot",
+        };
+      }
+      // Education
+      else if (lowerInput.includes("education")) {
+        const educationDetails = data.education
+          .map(
+            (edu) =>
+              `${edu.degree} from ${edu.school} (${edu.period}) - Grade: ${edu.grade}`
+          )
+          .join("\n");
+        botReply = {
+          text: `Here's my education background:\n${educationDetails}`,
+          from: "bot",
+        };
+      }
+      // Experience
+      else if (lowerInput.includes("experience")) {
+        const current = data.experience[0];
+        const previous = data.experience[1];
+        botReply = {
+          text: `Currently at ${current.company} as ${current.role} (${current.period}). Previously worked at ${previous.company} as ${previous.role} (${previous.period}).`,
+          from: "bot",
+        };
+      } else if (
+        lowerInput.includes("how much experience") ||
+        lowerInput.includes("since when")
+      ) {
+        const mentionedSkill = skillExperience.find(
+          (entry) => lowerInput.includes(entry.role.toLowerCase()) // Assuming role is the skill you're checking
+        );
+
+        if (mentionedSkill) {
+          botReply = {
+            text: `I've been working with ${mentionedSkill.role} for ${mentionedSkill.period}.`,
+            from: "bot",
+          };
+        } else {
+          botReply = {
+            text: `Could you mention the specific technology or skill you'd like to know my experience in?`,
+            from: "bot",
+          };
+        }
+      }
+
+      // Skills
+      else if (
+        lowerInput.includes("skills") ||
+        lowerInput.includes("technical skills") ||
+        lowerInput.includes("technologies")
+      ) {
+        const skills = Object.entries(data.technical_skills)
+          .map(([key, val]) => `${key}: ${(val as string[]).join(", ")}`)
+          .join("\n");
+        botReply = {
+          text: `Here are my technical skills:\n${skills}`,
+          from: "bot",
+        };
+      }
+
+      // Projects
+      else if (lowerInput.includes("project")) {
+        const projectMatch = data.projects.find((p) =>
+          lowerInput.includes(p.title.toLowerCase())
+        );
+
+        if (projectMatch) {
+          const desc = projectMatch.description.join(", ");
+          const tech = projectMatch.technologies
+            ? `\nTech Stack: ${projectMatch.technologies}`
+            : "";
+          botReply = {
+            text: `${projectMatch.title} (${projectMatch.type} project):\n${desc}${tech}`,
+            from: "bot",
+          };
+        } else {
+          const projList = data.projects.map((p) => `• ${p.title}`).join("\n");
+          botReply = {
+            text: `Here are some of my projects:\n${projList}\n\nAsk about any specific one for more details.`,
+            from: "bot",
+          };
+        }
+      }
+
+      // Roles Description
+      else if (lowerInput.includes("roles")) {
+        const rolesDesc = data.roles
+          .map((role) => `${role.title}: ${role.description}`)
+          .join("\n");
+        botReply = {
+          text: `Here are the roles I specialize in:\n${rolesDesc}`,
+          from: "bot",
+        };
+      }
+      // Default response
+      else {
+        botReply = {
+          text: "Sorry, I didn't quite understand that. Could you rephrase?",
+          from: "bot",
+        };
       }
 
       setMessages((prev) => [...prev, botReply]);
@@ -101,6 +252,7 @@ const ChatBot: React.FC = () => {
                 Typing<span className="dot-flash">...</span>
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
           <div className="p-3 border-t dark:border-slate-700 flex items-center gap-2 bg-slate-50 dark:bg-slate-800">
             <input
