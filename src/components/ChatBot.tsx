@@ -102,7 +102,7 @@ const ChatBot: React.FC = () => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer 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`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(chatPayload),
