@@ -1,6 +1,6 @@
 {
   "name": "Harsha Vardhan NJ",
-  "date_of_birth":"05.01.1999",
+  "date_of_birth": "05.01.1999",
   "titles": [
     "Software Engineer",
     "Full Stack Developer",
@@ -38,6 +38,8 @@
       "company": "BINARYCHAKRA",
       "role": "Software Engineer",
       "period": "Oct 2023 - Present",
+      "current_working": true,
+      "current_salary": "500,000 CTC",
       "location": "Madurai",
       "achievements": [
         "Developed and deployed multiple successful Shopify apps using Polaris, Remix, React, and Node.js, enhancing client satisfaction and user engagement.",
@@ -50,6 +52,7 @@
     {
       "company": "CRON24 TECHNOLOGIES",
       "role": "Mobile App Developer",
+      "current_working": false,
       "period": "Mar 2022 – Sept 2023",
       "location": "Madurai",
       "achievements": [
@@ -171,5 +174,41 @@
     "portfolio_url": "https://harsha-pro.vercel.app/",
     "github": "https://github.com/NJHarshavardhan",
     "phone": "91+9976871783"
-  }
+  },
+  "expected_salary": " 1,000,000 CTC",
+  "hobbies": [
+    "Traveling",
+    "Trying new food",
+    "Watching movies",
+    "Playing games",
+    "music"
+  ],
+  "strengths": [
+    {
+      "strength": "Problem-solving",
+      "description": "I’m really good at tackling problems head-on. I enjoy finding creative solutions, especially when things aren’t going as planned. For instance, in my last project, I identified a technical roadblock and came up with a solution that sped up the whole process."
+    },
+    {
+      "strength": "Communication",
+      "description": "I pride myself on being a good communicator. I make sure everyone is on the same page, whether that’s leading team meetings or just keeping in touch with colleagues. This way, we avoid misunderstandings and keep things running smoothly."
+    },
+    {
+      "strength": "Attention to Detail",
+      "description": "I’m someone who really cares about the small stuff. I always double-check my work to make sure everything’s in place, especially when it comes to delivering high-quality results. I think it’s the little things that make a big difference."
+    }
+  ],
+  "weaknesses": [
+    {
+      "weakness": "Delegation",
+      "description": "I tend to take on a lot of tasks myself because I want to make sure everything’s done right. But I’m working on learning to trust my team more, setting clear expectations, and giving them the freedom to take the lead on certain things."
+    },
+    {
+      "weakness": "Asking for Help",
+      "description": "I sometimes struggle with asking for help when I’m stuck. I guess I don’t want to bother anyone. But I’ve started recognizing when I need assistance and I’ve been making an effort to reach out and collaborate more."
+    },
+    {
+      "weakness": "Work-life Balance",
+      "description": "Balancing work and personal life can be a challenge for me. I get really into what I’m doing and sometimes forget to take a step back. To fix this, I’ve started using tools to help me better organize my time and make sure I’m not overworking."
+    }
+  ]
 }
