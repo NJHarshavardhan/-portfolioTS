@@ -19,7 +19,7 @@ export const Experience = () => {
       className="relative bg-gray-50 dark:bg-gray-900 py-20 px-4"
     >
       <h2 className="text-center text-4xl font-bold text-blue-600 mb-16">
-        Timeline Experience
+      Experience
       </h2>
       <div className="relative max-w-4xl mx-auto before:hidden sm:before:block sm:before:absolute sm:before:left-1/2 sm:before:-ml-px sm:before:w-1 sm:before:h-full sm:before:bg-gradient-to-b sm:before:from-blue-500 sm:before:to-purple-500">
 
