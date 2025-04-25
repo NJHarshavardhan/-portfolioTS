@@ -2,7 +2,6 @@ import {
   motion,
   useScroll,
   useTransform,
-  AnimatePresence,
 } from "framer-motion";
 import { useRef, useState } from "react";
 import data from "../config/data.json";
@@ -56,14 +55,6 @@ export const Projects = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16"
         >
-          <motion.span
-            className="inline-block text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 tracking-wider uppercase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            Showcase
-          </motion.span>
           <motion.h2
             className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400"
             initial={{ opacity: 0, y: 20 }}
@@ -72,12 +63,6 @@ export const Projects = () => {
           >
             Featured Projects
           </motion.h2>
-          <motion.div
-            className="h-1 w-20 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mt-4 rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: 80 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          />
         </motion.div>
       </div>
 
@@ -225,34 +210,6 @@ export const Projects = () => {
           })}
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{
-          opacity: { delay: 1, duration: 1 },
-          y: { repeat: Infinity, duration: 2 },
-        }}
-      >
-        <span className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-          Scroll to explore
-        </span>
-        <svg
-          className="w-6 h-6 text-gray-400 dark:text-gray-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
-        </svg>
-      </motion.div>
     </section>
   );
 };
