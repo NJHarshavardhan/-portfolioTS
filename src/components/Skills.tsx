@@ -12,36 +12,50 @@ import {
 import data from "../config/data.json";
 
 const skills = data.technical_skills;
+
+const icons: Record<string, JSX.Element> = {
+  languages: <Code2 className="w-6 h-6 text-pink-500" />,
+  frameworks: <Layout className="w-6 h-6 text-blue-500" />,
+  APIs: <Globe className="w-6 h-6 text-green-500" />,
+  platforms: <Server className="w-6 h-6 text-yellow-500" />,
+  databases: <Database className="w-6 h-6 text-red-500" />,
+  messaging: <Tool className="w-6 h-6 text-indigo-500" />,
+  AI: <Cloud className="w-6 h-6 text-teal-500" />,
+};
+
 export const Skills = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
 
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: {},
     visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.25 },
     },
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
     visible: {
-      y: 0,
       opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-      },
+      y: 0,
+      transition: { duration: 0.6, type: "spring", bounce: 0.3 },
     },
+  };
+
+  const chipVariants = {
+    hidden: { opacity: 0, scale: 0 },
+    visible: (i: number) => ({
+      opacity: 1,
+      scale: 1,
+      transition: { delay: i * 0.05, type: "spring", stiffness: 300 },
+    }),
   };
 
   return (
-    <section id="skills" className="py-20 px-4 bg-gray-50 dark:bg-gray-800">
+    <section
+      id="skills"
+      className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800"
+    >
       <motion.div
         ref={ref}
         initial="hidden"
@@ -49,59 +63,47 @@ export const Skills = () => {
         variants={containerVariants}
         className="max-w-6xl mx-auto"
       >
-        <h2 className="text-4xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+        <h2 className="text-5xl font-extrabold text-center mb-14 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">
           Technical Skills
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {Object.entries(skills).map(([category, skillList], index) => (
+        <div className="grid gap-y-4 gap-x-4 md:grid-cols-2 lg:grid-cols-3">
+          {Object.entries(skills).map(([category, skillList], idx) => (
             <motion.div
               key={category}
-              variants={itemVariants}
-              className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg transform transition-transform duration-300 hover:scale-105"
+              variants={cardVariants}
+              className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-transform hover:scale-[1.025]"
             >
-              <div className="flex items-center gap-3 mb-6">
-                {category === "languages" && (
-                  <Code2 className="w-6 h-6 text-blue-600" />
-                )}
-                {category === "frameworks" && (
-                  <Layout className="w-6 h-6 text-purple-600" />
-                )}
-                {category === "APIs" && (
-                  <Globe className="w-6 h-6 text-green-600" />
-                )}
-                {category === "platforms" && (
-                  <Server className="w-6 h-6 text-yellow-600" />
-                )}
-                {category === "databases" && (
-                  <Database className="w-6 h-6 text-red-600" />
-                )}
-                {category === "messaging" && (
-                  <Tool className="w-6 h-6 text-indigo-600" />
-                )}
-                {category === "AI" && (
-                  <Cloud className="w-6 h-6 text-teal-600" />
-                )}
-                <h3 className="text-2xl font-bold capitalize">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 p-2 rounded-full">
+                  {icons[category] || <Code2 className="w-5 h-5" />}
+                </div>
+                <h3 className="text-lg font-semibold capitalize text-gray-800 dark:text-white">
                   {category.replace("_", " ")}
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-3">
-                {skillList.map((skill, idx) => (
-                  <motion.span
-                    key={idx}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
+
+              <div className="flex flex-wrap gap-2">
+                {skillList.map((skill, i) => (
+                  <motion.div
+                    key={i}
+                    custom={i}
+                    variants={chipVariants}
                     whileHover={{ scale: 1.1 }}
-                    transition={{
-                      delay: idx * 0.1,
-                      type: "spring",
-                      stiffness: 300,
-                    }}
-                    className="px-4 py-2 bg-purple-100 text-black rounded-full dark:bg-purple-400 dark:text-black"
+                    className="transition-all duration-200 group"
                   >
-                    {skill}
-                  </motion.span>
+                    <span
+                      className={`
+                        px-4 py-2 rounded-full text-sm font-medium inline-block
+                        bg-purple-100 text-gray-800 
+                        dark:bg-gradient-to-r dark:from-purple-500 dark:to-blue-500 dark:text-white
+                        group-hover:shadow-md group-hover:shadow-purple-400/50
+                        group-hover:dark:shadow-blue-400/30
+                      `}
+                    >
+                      {skill}
+                    </span>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
