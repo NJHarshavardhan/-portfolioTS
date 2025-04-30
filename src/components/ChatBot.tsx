@@ -86,7 +86,7 @@ const ChatBot: React.FC = () => {
       };
 
       const chatPayload = {
-        model: "openchat/openchat-3.5-0106",
+        model: "qwen/qwen3-30b-a3b:free",
         messages: [
           systemMessage,
           ...messages.map((msg) => ({
