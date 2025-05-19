@@ -173,7 +173,11 @@
     "linkedin": "https://www.linkedin.com/in/harshavardhannj/",
     "portfolio_url": "https://harsha-pro.vercel.app/",
     "github": "https://github.com/NJHarshavardhan",
-    "phone": "91+9976871783"
+    "phone": "91+9976871783",
+    "resume": {
+      "download": "../assets/Harsha-Resume.pdf",
+      "view": "../assets/Harsha-Resume.pdf"
+    }
   },
   "expected_salary": " 1,000,000 CTC",
   "hobbies": [
