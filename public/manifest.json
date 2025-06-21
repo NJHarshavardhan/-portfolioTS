@@ -1,0 +1,27 @@
+{
+  "name": "Harsha Vardhan - Software Engineer Portfolio",
+  "short_name": "Harsha Vardhan",
+  "description": "Harsha Vardhan's professional portfolio showcasing software engineering projects and skills",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://ik.imagekit.io/nz0mhbk9t/3d-cartoon-boy-using-laptop_876876-683.png?updatedAt=1742315119456",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://ik.imagekit.io/nz0mhbk9t/3d-cartoon-boy-using-laptop_876876-683.png?updatedAt=1742315119456",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "en",
+  "dir": "ltr"
+} 
