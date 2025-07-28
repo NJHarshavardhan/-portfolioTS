@@ -6,6 +6,7 @@ import {
   Monitor,
   Database,
   BrainCircuit,
+  Bot
 } from "lucide-react";
 import data from "../config/data.json";
 
@@ -31,6 +32,10 @@ export const About = () => {
     "LLM & OpenAI Logic": (
       <BrainCircuit className="w-8 h-8 text-red-600 mx-auto mb-4" />
     ),
+    "AI Agents Development": (
+  <Bot className="w-8 h-8 text-teal-600 mx-auto mb-4" />
+),
+
   };
 
   const rolesWithIcons = data.roles.map((role) => ({

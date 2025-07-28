@@ -9,8 +9,8 @@
     "AI-powered Developer"
   ],
   "location": "Madurai, India",
-  "experience_in_years": "2.8+ years",
-  "about": "Software engineer with experience in full-stack development using Flutter, React, Node.js, Shopify, AWS, Supabase, and OpenAI APIs. Passionate about building scalable, performant, AI-integrated applications across web, mobile, and desktop platforms.",
+  "experience_in_years": "3+ years",
+  "about": "Full Stack Software Engineer with 3 years of experience creating web and mobile products that make a difference. Skilled in React, Node.js, Next.js, and Flutter, with a knack for integrating the latest AI tools to automate and simplify complex workflows. Experienced in building AI agents and developing multi-channel platforms (MCP) to boost efficiency and scale. Known for delivering production-ready features, mentoring teammates, and bringing energy and attention to detail to every project.",
   "roles": [
     {
       "title": "Full Stack Web Development",
@@ -31,6 +31,10 @@
     {
       "title": "LLM & OpenAI Logic",
       "description": "Integrating AI-powered solutions, chat completion, and automation using OpenAI APIs."
+    },
+    {
+      "title": "AI Agents Development",
+      "description": "Building autonomous and task-driven AI agents using OpenAI, LangChain, and vector databases for intelligent workflows."
     }
   ],
   "experience": [
