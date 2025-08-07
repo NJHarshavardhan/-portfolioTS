@@ -1,9 +1,4 @@
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import data from "../config/data.json";
 import {
   Store,
@@ -14,8 +9,6 @@ import {
   Code,
 } from "lucide-react";
 
-const projects = data.projects;
-
 const iconMap = {
   Store: <Store className="w-5 h-5" />,
   Smartphone: <Smartphone className="w-5 h-5" />,
@@ -25,189 +18,122 @@ const iconMap = {
   ExternalLink: <ExternalLink className="w-5 h-5" />,
 };
 
-// Define a type for the valid icon keys
 type IconKey = keyof typeof iconMap;
 
-export const Projects = () => {
-  const containerRef = useRef(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+const projects = data.projects;
 
+export const Projects = () => {
   return (
     <section
-      ref={containerRef}
       id="projects"
-      className="relative h-[300vh] py-16 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-950"
+      className="py-20 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-950"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent dark:from-blue-900/20"></div>
-
-      {/* Floating elements for visual interest */}
-      <div className="absolute top-40 left-10 w-64 h-64 bg-purple-300/10 dark:bg-purple-700/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-40 right-10 w-80 h-80 bg-blue-300/10 dark:bg-blue-700/10 rounded-full blur-3xl"></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <motion.div
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <motion.h2
+          className="text-4xl sm:text-5xl font-extrabold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 drop-shadow-md"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-16"
+          transition={{ duration: 0.85, ease: "easeOut" }}
         >
-          <motion.h2
-            className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-          >
-            Featured Projects
-          </motion.h2>
-        </motion.div>
-      </div>
+          Featured Projects
+        </motion.h2>
 
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        <div className="relative w-full max-w-6xl mx-auto h-[700px]">
-          {projects.map((project, index) => {
-            const progress = useTransform(
-              scrollYProgress,
-              [index / projects.length, (index + 0.6) / projects.length],
-              [0, 1]
-            );
-
-            const translateY = useTransform(progress, [0, 1], [0, -100]);
-            const translateX = useTransform(
-              progress,
-              [0, 1],
-              [0, index % 2 === 0 ? -20 : 20]
-            );
-            const scale = useTransform(progress, [0, 1], [1, 0.85]);
-            const opacity = useTransform(progress, [0, 0.6, 1], [1, 0.8, 0]);
-            const rotate = useTransform(
-              progress,
-              [0, 1],
-              [0, index % 2 === 0 ? -3 : 3]
-            );
-
-            return (
-              <motion.div
-                key={index}
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  y: translateY,
-                  x: translateX,
-                  scale,
-                  opacity,
-                  rotateZ: rotate,
-                  zIndex: projects.length - index,
-                }}
-                className="p-4"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                <motion.div
-                  className="bg-white/80 dark:bg-gray-800/90 backdrop-blur-lg rounded-2xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-700"
-                  whileHover={{
-                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-                    y: -5,
-                  }}
-                  transition={{ duration: 0.3 }}
+        {/* Horizontally scrollable, overlapping cards */}
+        <div className="flex overflow-x-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200 dark:scrollbar-thumb-blue-700 dark:scrollbar-track-gray-800 px-2 py-4 gap-0">
+          {projects.map((project, idx) => (
+            <motion.div
+              key={idx}
+              // Optimize with Framer Motion whileHover, no React hover state
+              whileHover={{
+                scale: 1.05,
+                // Only animate transform, no box-shadow
+              }}
+              className={`relative flex-shrink-0 flex bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700
+                mr-[-110px] last:mr-0 min-w-[440px] max-w-[440px]
+                shadow-md
+                hover:shadow-xl
+                transition-shadow duration-300
+                will-change-transform`}
+              style={{ zIndex: 1 + idx }} // base zIndex to stack cards
+              whileTap={{ scale: 0.97 }}
+            >
+              {/* Vertical project title area */}
+              <div className="flex flex-col justify-center bg-gradient-to-b from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-purple-700 px-3 py-12 rounded-l-3xl min-w-[52px]">
+                <span
+                  className="text-sm font-bold text-white tracking-widest"
+                  style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
                 >
-                  {/* Card Content */}
-                  <div className="p-8">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                          {project.title.charAt(0)}
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-                          {project.title}
-                        </h3>
-                      </div>
-                      <span className="px-4 py-1.5 text-sm font-medium bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-full self-start sm:self-auto">
-                        {project.type}
-                      </span>
+                  {project.title}
+                </span>
+              </div>
+
+              {/* Card content */}
+              <div className="flex flex-col flex-1 p-8">
+                <span className="mb-1 text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                  {project.type}
+                </span>
+                <div className="mb-5 space-y-3 text-gray-700 dark:text-gray-200 text-base leading-relaxed">
+                  {project.description.map((desc, i) => (
+                    <div className="flex items-start gap-2" key={i}>
+                      <span className="mt-1 text-blue-500 text-lg select-none leading-none">•</span>
+                      <span>{desc}</span>
                     </div>
+                  ))}
+                </div>
 
-                    {project.technologies && (
-                      <div className="mb-6">
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium">
-                          <span className="font-semibold">Technologies</span>
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.split(", ").map((tech, i) => (
-                            <span
-                              key={i}
-                              className="px-3 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="space-y-4 mb-8">
-                      {project.description.map((item, i) => (
-                        <motion.div
+                {/* Technologies */}
+                {project.technologies && (
+                  <div className="mb-8">
+                    <span className="block mb-2 font-medium text-sm text-gray-600 dark:text-gray-300">
+                      Technologies
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.split(", ").map((tech, i) => (
+                        <span
                           key={i}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: 0.1 * i,
-                            duration: 0.5,
-                            ease: "easeOut",
-                          }}
-                          className="flex items-start gap-3 text-gray-600 dark:text-gray-300"
+                          className="text-xs px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium select-none transition"
                         >
-                          <span className="text-blue-500 dark:text-blue-400 mt-1 text-lg">
-                            •
-                          </span>
-                          <span className="text-sm">{item}</span>
-                        </motion.div>
+                          {tech}
+                        </span>
                       ))}
                     </div>
-
-                    <div className="flex flex-wrap gap-4">
-                      {project.link_1 && (
-                        <motion.a
-                          href={project.link_1}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.97 }}
-                        >
-                          {iconMap[project.icon_1 as IconKey] ||
-                            iconMap.ExternalLink}
-                          <span>{project.icon_1_text}</span>
-                        </motion.a>
-                      )}
-
-                      {project.link_2 && (
-                        <motion.a
-                          href={project.link_2}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium transition-colors"
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.97 }}
-                        >
-                          {iconMap[project.icon_2 as IconKey] ||
-                            iconMap.ExternalLink}
-                          <span>{project.icon_2_text}</span>
-                        </motion.a>
-                      )}
-                    </div>
                   </div>
+                )}
 
-                  {/* Card Footer with pattern */}
-                  <div className="h-3 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
-                </motion.div>
-              </motion.div>
-            );
-          })}
+                {/* Links */}
+                <div className="flex gap-4 pt-1 flex-wrap">
+                  {project.link_1 && (
+                    <motion.a
+                      href={project.link_1}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg px-4 py-2 text-sm font-semibold shadow-lg transition-transform"
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.97 }}
+                      title={project.icon_1_text}
+                    >
+                      {iconMap[project.icon_1 as IconKey] || iconMap.ExternalLink}
+                      <span>{project.icon_1_text}</span>
+                    </motion.a>
+                  )}
+                  {project.link_2 && (
+                    <motion.a
+                      href={project.link_2}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-800 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg px-4 py-2 text-sm font-medium shadow-sm transition-transform"
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.97 }}
+                      title={project.icon_2_text}
+                    >
+                      {iconMap[project.icon_2 as IconKey] || iconMap.ExternalLink}
+                      <span>{project.icon_2_text}</span>
+                    </motion.a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
