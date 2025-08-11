@@ -32,18 +32,13 @@ function App() {
     const lenis = new Lenis({
       duration: 1.3,
       smoothWheel: true,
-      smoothTouch: true,
       wheelMultiplier: 0.65,
       touchMultiplier: 0.8,
       easing: (t: number) => 1 - Math.pow(1 - t, 2),
-      // Mobile-specific optimizations
       infinite: false,
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      // Better mobile performance
       lerp: 0.1,
-      // Disable smooth on mobile if performance is poor
-      smooth: true,
     });
 
     // Expose for programmatic anchor scrolling (Navigation)
@@ -60,8 +55,8 @@ function App() {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile) {
       // Reduce complexity on mobile for better performance
-      lenis.options.duration = 1.0;
-      lenis.options.lerp = 0.15;
+      (lenis as any).duration = 1.0;
+      (lenis as any).lerp = 0.15;
     }
 
     return () => {
