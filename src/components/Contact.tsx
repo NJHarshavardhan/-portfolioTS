@@ -40,14 +40,14 @@ export const Contact = () => {
 
   return (
     <motion.section
-    id = "contact"
+      id="contact"
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
-      className="min-h-screen flex items-center justify-center p-4"
+      className="py-20 px-4"
     >
-      <div className="max-w-md w-full">
+      <div className="max-w-md w-full mx-auto">
         <h2 className="text-4xl font-bold mb-8 text-center">Get in Touch</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

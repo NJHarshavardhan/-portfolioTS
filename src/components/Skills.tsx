@@ -10,6 +10,8 @@ import {
   Cloud,
 } from "lucide-react";
 import data from "../config/data.json";
+import { gsap } from "../lib/gsap";
+import { useEffect, useRef } from "react";
 
 const skills = data.technical_skills;
 
@@ -25,6 +27,21 @@ const icons: Record<string, JSX.Element> = {
 
 export const Skills = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!rootRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".skill-card", {
+        opacity: 0,
+        y: 30,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power2.out",
+      });
+    }, rootRef);
+    return () => ctx.revert();
+  }, []);
 
   const containerVariants = {
     hidden: {},
@@ -67,12 +84,12 @@ export const Skills = () => {
           Technical Skills
         </h2>
 
-        <div className="grid gap-y-4 gap-x-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-y-4 gap-x-4 md:grid-cols-2 lg:grid-cols-3" ref={rootRef}>
           {Object.entries(skills).map(([category, skillList], idx) => (
             <motion.div
               key={category}
               variants={cardVariants}
-              className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-transform hover:scale-[1.025]"
+              className="skill-card bg-white/80 dark:bg-gray-900/80 backdrop-blur-md p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-transform hover:scale-[1.025]"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 p-2 rounded-full">

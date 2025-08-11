@@ -13,6 +13,33 @@
 html {
   -ms-overflow-style: none;
 }
+
+/* Gradient mesh utility */
+.bg-mesh {
+  background-image:
+    radial-gradient(40% 50% at 10% 10%, rgba(99,102,241,.15), transparent 60%),
+    radial-gradient(40% 50% at 90% 20%, rgba(147,51,234,.15), transparent 60%),
+    radial-gradient(40% 50% at 30% 90%, rgba(59,130,246,.15), transparent 60%);
+}
+
+/* Card shine on hover */
+.card-shine { position: relative; overflow: hidden; }
+.card-shine::after {
+  content: ""; position: absolute; inset: -150% -150% auto auto; width: 200%; height: 200%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.15) 50%, transparent 70%);
+  transform: rotate(15deg) translate3d(-100%,0,0); transition: transform .6s ease;
+}
+.card-shine:hover::after { transform: rotate(15deg) translate3d(100%,0,0); }
+
+/* Ensure selection is visible in both themes */
+::selection {
+  background: rgba(99, 102, 241, 0.35);
+  color: #111827;
+}
+.dark ::selection {
+  background: rgba(147, 51, 234, 0.45);
+  color: #fff;
+}
 @keyframes fade-in {
   from {
     opacity: 0;

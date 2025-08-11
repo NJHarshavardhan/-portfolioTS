@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import data from "../config/data.json";
 import {
@@ -9,6 +9,7 @@ import {
   Github,
   Code,
 } from "lucide-react";
+// Removed GSAP reveal to avoid layout jump/extra space
 
 const iconMap = {
   Store: <Store className="w-5 h-5" />,
@@ -30,6 +31,7 @@ export const Projects = () => {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1200
   );
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleResize() {
@@ -38,6 +40,8 @@ export const Projects = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // No GSAP reveal here to prevent unexpected spacing on some browsers
 
   const isMobile = windowWidth < 640; // Tailwind 'sm' breakpoint = 640px
 
@@ -83,7 +87,7 @@ export const Projects = () => {
   return (
     <section
       id="projects"
-      className="py-20 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-950"
+      className="pt-14 pb-10 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-gray-900 dark:to-gray-950"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         <motion.h2
@@ -96,13 +100,15 @@ export const Projects = () => {
         </motion.h2>
 
         <div
-          className="flex overflow-x-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200 dark:scrollbar-thumb-blue-700 dark:scrollbar-track-gray-800 py-4 gap-0"
+          className="flex overflow-x-auto scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-200 dark:scrollbar-thumb-blue-700 dark:scrollbar-track-gray-800 py-2 sm:py-3 gap-0"
           style={{
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch",
             paddingLeft: isMobile ? overlapMobile / 2 : overlapDesktop / 2,
             paddingRight: isMobile ? overlapMobile / 2 : overlapDesktop / 2,
+            marginBottom: 0,
           }}
+          ref={containerRef}
         >
           {projects.map((project, idx) => {
             const isActiveMobileCard = isMobile && activeMobileIndex === idx;
@@ -117,7 +123,7 @@ export const Projects = () => {
                   scale: isActiveMobileCard || hoveredIndex === idx ? 1.05 : 1,
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className={`relative flex-shrink-0 flex bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700
+                className={`card-shine relative flex-shrink-0 flex bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700
                   shadow-md hover:shadow-xl transition-shadow duration-300 will-change-transform`}
                 style={{
                   zIndex:
@@ -134,6 +140,7 @@ export const Projects = () => {
                       ? "95vw"
                       : cardWidthMobile
                     : cardWidthDesktop,
+                  marginBottom: 0,
                 }}
                 whileTap={{ scale: isMobile ? 0.98 : 0.97 }}
               >

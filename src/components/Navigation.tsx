@@ -16,12 +16,14 @@ export const Navigation = () => {
   const scrollToSection = (href: string) => {
     setIsOpen(false);
     const element = document.querySelector(href);
+    const lenis: any = (window as any).lenis;
     if (element) {
-      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({
-        top: offsetTop - 100, // Add some offset to account for the fixed header
-        behavior: 'smooth'
-      });
+      const top = element.getBoundingClientRect().top + window.pageYOffset - 100;
+      if (lenis && typeof lenis.scroll === 'function') {
+        lenis.scrollTo(top, { lerp: 0.12 });
+      } else {
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
     }
   };
 
@@ -70,7 +72,7 @@ export const Navigation = () => {
           {navItems.map((item) => (
             <motion.button
               key={item.name}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.08, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection(item.href)}
               className="px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"

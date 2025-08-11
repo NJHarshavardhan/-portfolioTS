@@ -8,15 +8,18 @@ import {
   Code,
   Sparkles,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import data from "../config/data.json";
 import resumePdf from "../assets/Harsha-Resume.pdf";
 import HarshaPic from "../assets/Harsha-Pic-1.jpeg";
+import { gsap } from "../lib/gsap";
 
 export const Hero = () => {
   const [titleIndex, setTitleIndex] = useState(0);
   const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
   const titles = data.titles;
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const ringsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,6 +27,47 @@ export const Hero = () => {
     }, 3000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  // Note: removed per-letter split animation to ensure gradient text visibility
+
+  // GSAP: 3D tilt for portrait
+  useEffect(() => {
+    if (!portraitRef.current) return;
+    const el = portraitRef.current;
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const rx = (e.clientY - rect.top - rect.height / 2) / rect.height;
+      const ry = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      gsap.to(el, {
+        rotateX: rx * -10,
+        rotateY: ry * 10,
+        transformPerspective: 800,
+        transformOrigin: "center",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    };
+    const onLeave = () =>
+      gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.5, ease: "power3.out" });
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
+  // GSAP: subtle float on outer ring
+  useEffect(() => {
+    if (!ringsRef.current) return;
+    gsap.to(ringsRef.current, {
+      y: 10,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      duration: 3,
+    });
   }, []);
 
   // Professional profile image using avatar API (you can replace with your actual photo)
@@ -249,12 +293,13 @@ export const Hero = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
           className="flex justify-center md:justify-start order-1 md:order-2"
         >
-          <div className="relative">
+          <div className="relative" ref={portraitRef}>
             {/* Animated rings around profile */}
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="absolute inset-0 w-64 h-64 border-2 border-blue-200 dark:border-blue-800 rounded-full"
+              ref={ringsRef}
             />
             <motion.div
               animate={{ rotate: -360 }}

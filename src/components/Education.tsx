@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { GraduationCap, Calendar, MapPin } from "lucide-react";
 import data from "../config/data.json";
+// Removed GSAP to fix visibility issues
 const education = data.education;
 
 export const Education = () => {
@@ -15,19 +16,20 @@ export const Education = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.1, // Reduced from 0.2
+        delayChildren: 0.1,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { x: -50, opacity: 0 },
+    hidden: { opacity: 0, y: 20 }, // Simplified from x: -50
     visible: {
-      x: 0,
       opacity: 1,
+      y: 0,
       transition: {
-        type: "spring",
-        stiffness: 100,
+        duration: 0.4, // Faster animation
+        ease: "easeOut", // Lighter easing
       },
     },
   };
@@ -41,29 +43,41 @@ export const Education = () => {
         variants={containerVariants}
         className="max-w-6xl mx-auto"
       >
-        <h2 className="text-5xl font-bold text-center mb-16">
+        <motion.h2 
+          className="text-5xl font-bold text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+        >
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600">
             Education Journey
           </span>
-        </h2>
+        </motion.h2>
 
         <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Timeline line for desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-purple-600"></div>
+          <motion.div 
+            className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-purple-600"
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          />
 
           {education.map((edu, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
               className="relative group"
+              whileHover={{ 
+                scale: 1.02, // Reduced from 1.05
+                transition: { duration: 0.2 } // Faster hover
+              }}
             >
               <div
                 className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700 
-                           shadow-lg hover:shadow-2xl transition-all duration-300 
-                           hover:scale-105 hover:border-blue-500 dark:hover:border-blue-400"
+                           shadow-lg hover:shadow-xl transition-all duration-200 
+                           hover:border-blue-500 dark:hover:border-blue-400"
               >
-                <div className=""></div>
-
                 <div className="flex items-center gap-4 mb-6">
                   <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
                     <GraduationCap className="w-8 h-8 text-blue-600 dark:text-blue-400" />
