@@ -17,12 +17,21 @@ export const Navigation = () => {
     setIsOpen(false);
     const element = document.querySelector(href);
     const lenis: any = (window as any).lenis;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     if (element) {
       const top = element.getBoundingClientRect().top + window.pageYOffset - 100;
-      if (lenis && typeof lenis.scroll === 'function') {
+      
+      if (lenis && typeof lenis.scroll === 'function' && !isMobile) {
+        // Use Lenis smooth scroll on desktop
         lenis.scrollTo(top, { lerp: 0.12 });
       } else {
-        window.scrollTo({ top, behavior: 'smooth' });
+        // Fallback to native smooth scroll on mobile
+        element.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        });
       }
     }
   };
