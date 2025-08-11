@@ -10,7 +10,7 @@
   ],
   "location": "Madurai, India",
   "experience_in_years": "3+ years",
-  "about": "Full Stack Software Engineer with 3 years of experience creating web and mobile products that make a difference. Skilled in React, Node.js, Next.js, and Flutter, with a knack for integrating the latest AI tools to automate and simplify complex workflows. Experienced in building AI agents and developing multi-channel platforms (MCP) to boost efficiency and scale. Known for delivering production-ready features, mentoring teammates, and bringing energy and attention to detail to every project.",
+  "about": "Full Stack Software Engineer with 3+ years of experience creating web and mobile products that make a difference. Skilled in React, Node.js, Next.js, and Flutter, with a knack for integrating the latest AI tools to automate and simplify complex workflows. Experienced in building AI agents and developing multi-channel platforms (MCP) to boost efficiency and scale. Known for delivering production-ready features, mentoring teammates, and bringing energy and attention to detail to every project.",
   "roles": [
     {
       "title": "Full Stack Web Development",
@@ -217,6 +217,32 @@
     {
       "weakness": "Work-life Balance",
       "description": "Balancing work and personal life can be a challenge for me. I get really into what I’m doing and sometimes forget to take a step back. To fix this, I’ve started using tools to help me better organize my time and make sure I’m not overworking."
+    }
+  ],
+  "stats": [
+    {
+      "icon": "Trophy",
+      "label": "Years Experience",
+      "value": "3+ years",
+      "color": "text-yellow-500"
+    },
+    {
+      "icon": "Target",
+      "label": "Projects Completed",
+      "value": "15+",
+      "color": "text-green-500"
+    },
+    {
+      "icon": "Users",
+      "label": "Happy Clients",
+      "value": "15+",
+      "color": "text-blue-500"
+    },
+    {
+      "icon": "Coffee",
+      "label": "Cups of Coffee",
+      "value": "∞",
+      "color": "text-amber-600"
     }
   ]
 }
