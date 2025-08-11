@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Programming Font Base Settings */
+@layer base {
+  html {
+    font-family: 'Fira Code', 'JetBrains Mono', monospace;
+    font-feature-settings: 'liga' 1, 'calt' 1; /* Enable ligatures */
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+  }
+  
+  /* Programming-style text selection */
+  ::selection {
+    background: rgba(99, 102, 241, 0.35);
+    color: #111827;
+  }
+  
+  .dark ::selection {
+    background: rgba(147, 51, 234, 0.45);
+    color: #fff;
+  }
+}
+
+/* Base font settings */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', system-ui, sans-serif;
+  }
+  
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -160,5 +205,19 @@ html {
   }
   40% {
     transform: scale(1.2) translateY(-5px);
+  }
+}
+
+@layer components {
+  .code-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+  }
+  
+  .programming-heading {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
   }
 }

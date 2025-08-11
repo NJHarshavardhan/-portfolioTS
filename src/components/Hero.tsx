@@ -126,7 +126,7 @@ export const Hero = () => {
           </motion.div>
 
           <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_auto]"
+            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_auto] font-heading"
             animate={{
               backgroundPosition: ["0%", "200%"],
             }}

@@ -4,6 +4,12 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        'sans': ['Fira Code', 'JetBrains Mono', 'monospace'],
+        'mono': ['JetBrains Mono', 'monospace'],
+        'code': ['Fira Code', 'monospace'],
+        'heading': ['JetBrains Mono', 'monospace'],
+      },
       animation: {
         'gradient': 'gradient 8s linear infinite',
       },
