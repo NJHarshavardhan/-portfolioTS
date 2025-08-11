@@ -16,23 +16,50 @@ export const Navigation = () => {
   const scrollToSection = (href: string) => {
     setIsOpen(false);
     const element = document.querySelector(href);
+    
+    if (!element) return;
+    
     const lenis: any = (window as any).lenis;
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isTablet = /iPad|Android.*Tablet|Tablet.*Android/i.test(navigator.userAgent);
     
-    if (element) {
-      const top = element.getBoundingClientRect().top + window.pageYOffset - 100;
+    // Calculate scroll position with offset
+    const offset = isMobile || isTablet ? 80 : 100;
+    const top = element.getBoundingClientRect().top + window.pageYOffset - offset;
+    
+    if (lenis && typeof lenis.scrollTo === 'function' && !isMobile && !isTablet) {
+      // Use Lenis smooth scroll on laptop/desktop
+      lenis.scrollTo(top, { 
+        lerp: 0.1,
+        duration: 1.2,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3)
+      });
+    } else {
+      // Enhanced native smooth scroll for mobile/tablet
+      const currentScroll = window.pageYOffset;
+      const targetScroll = top;
+      const distance = targetScroll - currentScroll;
+      const duration = Math.min(Math.abs(distance) / 2, 1000);
       
-      if (lenis && typeof lenis.scroll === 'function' && !isMobile) {
-        // Use Lenis smooth scroll on desktop
-        lenis.scrollTo(top, { lerp: 0.12 });
-      } else {
-        // Fallback to native smooth scroll on mobile
-        element.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest'
-        });
+      const startTime = performance.now();
+      
+      function easeInOutCubic(t: number): number {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       }
+      
+      function animateScroll(currentTime: number) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeInOutCubic(progress);
+        
+        window.scrollTo(0, currentScroll + distance * easedProgress);
+        
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      }
+      
+      requestAnimationFrame(animateScroll);
     }
   };
 
@@ -54,6 +81,7 @@ export const Navigation = () => {
         animate={{
           x: isOpen ? 0 : '-100%',
         }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-900 shadow-xl z-40 md:hidden"
       >
         <div className="pt-20 px-4">
@@ -61,8 +89,9 @@ export const Navigation = () => {
             <motion.button
               key={item.name}
               whileHover={{ x: 10 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection(item.href)}
-              className="block w-full text-left py-3 px-4 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg mb-2"
+              className="block w-full text-left py-3 px-4 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg mb-2 transition-colors"
             >
               {item.name}
             </motion.button>

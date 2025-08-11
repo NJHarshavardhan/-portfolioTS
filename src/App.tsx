@@ -15,11 +15,13 @@ import ChatBot from "./components/ChatBot";
 import ScrollProgress from "./components/ScrollProgress";
 import { ScrollTrigger } from "./lib/gsap";
 import Lenis from "@studio-freight/lenis";
+
 function App() {
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark";
   });
+
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark);
     localStorage.setItem("theme", isDark ? "dark" : "light");
@@ -27,45 +29,69 @@ function App() {
     Clarity.init(projectId);
   }, [isDark]);
 
-  // Smooth scroll (Nothing-like slower inertial) + ScrollTrigger sync
+  // Enhanced smooth scroll with proper device detection
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.3,
-      smoothWheel: true,
-      wheelMultiplier: 0.65,
-      touchMultiplier: 0.8,
-      easing: (t: number) => 1 - Math.pow(1 - t, 2),
-      infinite: false,
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      lerp: 0.1,
-    });
-
-    // Expose for programmatic anchor scrolling (Navigation)
-    (window as any).lenis = lenis;
-
-    function raf(time: number) {
-      lenis.raf(time);
-      ScrollTrigger.update();
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Mobile performance check and fallback
+    // Better device detection - distinguish between mobile and laptop
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isMobile) {
-      // Reduce complexity on mobile for better performance
-      (lenis as any).duration = 1.0;
-      (lenis as any).lerp = 0.15;
-    }
+    const isTablet = /iPad|Android.*Tablet|Tablet.*Android/i.test(navigator.userAgent);
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // Use Lenis on laptops and desktop (even with touchpads), but disable on mobile/tablets
+    if (!isMobile && !isTablet) {
+      const lenis = new Lenis({
+        duration: 1.2,
+        smoothWheel: true,
+        wheelMultiplier: isTouchDevice ? 0.6 : 0.7,
+        touchMultiplier: isTouchDevice ? 0.8 : 1.2,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+        infinite: false,
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        lerp: 0.08,
+        syncTouch: true,
+        syncTouchLerp: 0.1,
+      });
 
-    return () => {
-      // @ts-ignore
-      lenis?.destroy?.();
-      if ((window as any).lenis === lenis) {
-        delete (window as any).lenis;
+      // Expose for programmatic anchor scrolling (Navigation)
+      (window as any).lenis = lenis;
+
+      function raf(time: number) {
+        lenis.raf(time);
+        ScrollTrigger.update();
+        requestAnimationFrame(raf);
       }
-    };
+      requestAnimationFrame(raf);
+
+      return () => {
+        lenis?.destroy?.();
+        if ((window as any).lenis === lenis) {
+          delete (window as any).lenis;
+        }
+      };
+    } else {
+      // Mobile/tablet fallback - use native smooth scroll
+      (window as any).lenis = null;
+      
+      // Add CSS for native smooth scroll on mobile
+      const style = document.createElement('style');
+      style.textContent = `
+        html {
+          scroll-behavior: smooth;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          html {
+            scroll-behavior: auto;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      return () => {
+        if (document.head.contains(style)) {
+          document.head.removeChild(style);
+        }
+      };
+    }
   }, []);
 
   const toggleTheme = () => setIsDark(!isDark);
