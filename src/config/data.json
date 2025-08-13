@@ -90,8 +90,8 @@
   },
   "projects": [
     {
-      "title": "STORE BLOG",
-      "type": "Full Stack",
+      "title": "AI Blog Article Generator",
+      "type": "Full Stack Engineer",
       "link_1": "https://apps.shopify.com/storeblog-boost-your-store-seo",
       "icon_1": "Store",
       "icon_1_text": "Shopify App Store",
@@ -103,8 +103,20 @@
       ]
     },
     {
-      "title": "AI Image Generation API",
-      "type": "Backend",
+      "title": "Automated Store Task Manager",
+      "type": "Full Stack Engineer",
+      "description": [
+        "B2B app to automate store management for e‑commerce teams.",
+        "Created a Python + Composiv AI agent for bulk updates and AI content",
+        "Delivered a Supabase/AWS backend with a React & Polaris UI."
+      ],
+      "link_1": "https://apps.shopify.com/storeworkers",
+      "icon_1": "Store",
+      "icon_1_text": "Shopify App Store"
+    },
+    {
+      "title": "Image Generation Service (AI)",
+      "type": "Backend Engineer",
       "description": [
         "Developed a FastAPI backend for AI-powered image generation",
         "Handled prompt processing and image creation using Hugging Face models",
@@ -112,8 +124,8 @@
       ]
     },
     {
-      "title": "AI-Powered Notification App",
-      "type": "Full Stack",
+      "title": "AI Store Alerts & Notifications",
+      "type": "Full Stack Engineer",
       "description": [
         "Shopify-based app that generates AI-driven notifications to boost store sales",
         "Uses OpenAI to analyze store data and suggest useful notifications",
@@ -121,8 +133,9 @@
         "Sends notifications to merchants based on triggered webhooks"
       ]
     },
+
     {
-      "title": "FILMPLACE",
+      "title": "Location Booking Platform",
       "type": "Mobile App",
       "technologies": "Flutter, Firebase, Stripe, Google Maps",
       "link_1": "https://play.google.com/store/apps/details?id=com.filmplace.app&pcampaignid=web_share",
@@ -139,7 +152,7 @@
       ]
     },
     {
-      "title": "CABBY",
+      "title": "Ride Booking",
       "type": "Mobile App",
       "technologies": "Flutter, Firebase, GeoLocator",
       "link_1": "https://play.google.com/store/apps/details?id=com.cron24.cabby&hl=en-IN",
