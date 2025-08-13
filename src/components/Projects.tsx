@@ -159,26 +159,40 @@ export const Projects = () => {
 
                 {/* Card content */}
                 <div className="flex flex-col flex-1 p-4 sm:p-8">
-                  <span className="mb-1 text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
-                    {project.type}
-                  </span>
-                  <div className="mb-5 space-y-2 sm:space-y-3 text-gray-700 dark:text-gray-200 text-sm sm:text-base leading-relaxed px-4 sm:px-0 overflow-visible break-words">
+                  <div className="flex justify-start mb-3">
+                    <span className="inline-block px-3 py-1.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-700/50 whitespace-nowrap w-fit">
+                      Role: {project.type}
+                    </span>
+                  </div>
+                  <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-3"></div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                    <span className="font-bold text-xs text-gray-800 dark:text-gray-100 tracking-wide">
+                      Description
+                    </span>
+                  </div>
+                  <div className="mb-4 space-y-1.5 sm:space-y-2 text-gray-700 dark:text-gray-200 text-xs sm:text-sm leading-relaxed px-3 sm:px-0 overflow-visible break-words">
                     {project.description.map((desc, i) => (
                       <div className="flex items-start gap-2" key={i}>
-                        <span className="mt-1 text-blue-500 text-lg select-none leading-none">
+                        <span className="mt-1 text-blue-500 text-base select-none leading-none">
                           •
                         </span>
-                        <span>{desc}</span>
+                        <span className="text-xs sm:text-sm">{desc}</span>
                       </div>
                     ))}
                   </div>
-
+                
                   {/* Technologies */}
                   {project.technologies && (
                     <div className="mb-6">
-                      <span className="block mb-2 font-medium text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                        Technologies
-                      </span>
+                        <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-3"></div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+                        <span className="font-bold text-xs text-gray-800 dark:text-gray-100 tracking-wide">
+                          Technologies
+                        </span>
+                      </div>
+
                       <div className="flex flex-wrap gap-2">
                         {project.technologies.split(", ").map((tech, i) => (
                           <span
@@ -191,13 +205,15 @@ export const Projects = () => {
                       </div>
                     </div>
                   )}
-
+                     
                   {/* Spacer to push links to bottom */}
                   <div className="flex-1"></div>
 
                   {/* Links - now at bottom */}
                   <div className="flex gap-3 pt-1 flex-wrap mt-auto">
+                  <div className="w-full h-px bg-gray-300 dark:bg-gray-600 mb-3"></div>
                     {project.link_1 && (
+                      
                       <motion.a
                         href={project.link_1}
                         target="_blank"
@@ -207,6 +223,7 @@ export const Projects = () => {
                         whileTap={{ scale: 0.97 }}
                         title={project.icon_1_text}
                       >
+                        
                         {iconMap[project.icon_1 as IconKey] ||
                           iconMap.ExternalLink}
                         <span>{project.icon_1_text}</span>

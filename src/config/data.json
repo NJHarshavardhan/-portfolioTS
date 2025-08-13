@@ -100,7 +100,8 @@
         "OpenAI GPT integration with custom prompt engineering",
         "AWS Cron for automated publishing with multi-language support",
         "Hugging Face models for AI-generated images"
-      ]
+      ],
+      "technologies": "Remix, Shopify Polaris, OpenAI, AWS Cron, Hugging Face"
     },
     {
       "title": "Automated Store Task Manager",
@@ -112,11 +113,13 @@
       ],
       "link_1": "https://apps.shopify.com/storeworkers",
       "icon_1": "Store",
-      "icon_1_text": "Shopify App Store"
+      "icon_1_text": "Shopify App Store",
+      "technologies": "Remix, Python, FastAPI, Supabase, AWS"
     },
     {
       "title": "Image Generation Service (AI)",
       "type": "Backend Engineer",
+      "technologies": "Python, Fast API, Hugging Face",
       "description": [
         "Developed a FastAPI backend for AI-powered image generation",
         "Handled prompt processing and image creation using Hugging Face models",
@@ -126,6 +129,7 @@
     {
       "title": "AI Store Alerts & Notifications",
       "type": "Full Stack Engineer",
+      "technologies": "Remix, Firebase, OpenAI, Kafka, React, Node.js",
       "description": [
         "Shopify-based app that generates AI-driven notifications to boost store sales",
         "Uses OpenAI to analyze store data and suggest useful notifications",
