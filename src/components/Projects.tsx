@@ -192,8 +192,11 @@ export const Projects = () => {
                     </div>
                   )}
 
-                  {/* Links */}
-                  <div className="flex gap-3 pt-1 flex-wrap">
+                  {/* Spacer to push links to bottom */}
+                  <div className="flex-1"></div>
+
+                  {/* Links - now at bottom */}
+                  <div className="flex gap-3 pt-1 flex-wrap mt-auto">
                     {project.link_1 && (
                       <motion.a
                         href={project.link_1}
