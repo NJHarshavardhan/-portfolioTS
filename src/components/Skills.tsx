@@ -80,7 +80,7 @@ export const Skills = () => {
         variants={containerVariants}
         className="max-w-6xl mx-auto"
       >
-        <h2 className="text-5xl font-extrabold text-center mb-14 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">
+        <h2 className="text-4xl font-extrabold text-center mb-14 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">
           Technical Skills
         </h2>
 

@@ -44,7 +44,7 @@ export const Education = () => {
         className="max-w-6xl mx-auto"
       >
         <motion.h2 
-          className="text-5xl font-bold text-center mb-16"
+          className="text-4xl font-bold text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}

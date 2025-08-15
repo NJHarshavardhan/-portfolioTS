@@ -48,7 +48,7 @@ export const Contact = () => {
       className="py-20 px-4"
     >
       <div className="max-w-md w-full mx-auto">
-        <h2 className="text-4xl font-bold mb-8 text-center">Get in Touch</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center">Get in Touch</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium mb-2">Email</label>

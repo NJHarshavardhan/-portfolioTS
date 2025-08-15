@@ -91,12 +91,12 @@ export const Projects = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         <motion.h2
-          className="text-4xl sm:text-5xl font-extrabold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 drop-shadow-md"
+          className="text-3xl sm:text-4xl font-extrabold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 drop-shadow-md"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, ease: "easeOut" }}
         >
-          Featured Projects
+          Projects
         </motion.h2>
 
         <div

@@ -82,7 +82,7 @@ export const About = () => {
             About Me
           </motion.div>
 
-          <h3 className="text-4xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+          <h3 className="text-3xl md:text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
             Turning ideas into intelligent products
           </h3>
 
