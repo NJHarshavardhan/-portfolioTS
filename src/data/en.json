@@ -1,0 +1,13 @@
+{
+  "lanyard": {
+    "name": "Harsha Vardhan NJ",
+    "dob": "05.01.1999",
+    "role": "Software Engineer",
+    "location": "Madurai, India",
+    "tagline": "🟢 Open to opportunities",
+    "profilePic": "/src/assets/profile-placeholder.jpg"
+  },
+  "header": {
+    "logo": "HVN"
+  }
+}
