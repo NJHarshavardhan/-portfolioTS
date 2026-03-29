@@ -98,7 +98,7 @@ const ChatBot: React.FC = () => {
           headers: {
             "HTTP-Referer": "https://harsha-pro.vercel.app/",
             "X-OpenRouter-Title": "Harsha Vardhan NJ",
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer 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`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(chatPayload),
