@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CloudSun } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import Lanyard from "./Lanyard";
+const Lanyard = lazy(() => import("./Lanyard"));
 import en from "../../data/en.json";
 
 const navItems = ["About", "Skills", "Projects", "Experience", "Contact"];
@@ -11,61 +10,9 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showLanyard, setShowLanyard] = useState(false);
-  const [weather, setWeather] = useState<{ temp: number; city: string } | null>(null);
   const lanyardTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    const fetchWeather = async (lat: number, lon: number, city: string) => {
-      try {
-        const res = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
-        );
-        const data = await res.json();
-        setWeather({
-          temp: Math.round(data.current_weather.temperature),
-          city: city
-        });
-      } catch (e) {
-        console.error("Weather fetch failed", e);
-      }
-    };
 
-    const getIPFallback = async () => {
-      try {
-        const res = await fetch('https://ipapi.co/json/');
-        const data = await res.json();
-        if (data.latitude) {
-          fetchWeather(data.latitude, data.longitude, data.city || "Your Area");
-        }
-      } catch (e) {
-        console.error("IP fallback failed", e);
-      }
-    };
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          // Success: Use exact coordinates
-          const { latitude: lat, longitude: lon } = position.coords;
-          try {
-            const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
-            const geoData = await geoRes.json();
-            const city = geoData.address.city || geoData.address.town || geoData.address.village || "Your Location";
-            fetchWeather(lat, lon, city);
-          } catch {
-            fetchWeather(lat, lon, "Your Location");
-          }
-        },
-        () => {
-          // Failure/Denied: Fallback to IP approximation
-          getIPFallback();
-        },
-        { timeout: 5000 }
-      );
-    } else {
-      getIPFallback();
-    }
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -126,18 +73,6 @@ const Header = () => {
             >
               {en.header.logo}<span className="text-primary">.</span>
             </motion.span>
-
-            {weather && (
-              <motion.div 
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-[10px] font-medium text-muted-foreground whitespace-nowrap"
-              >
-                <CloudSun size={14} className="text-primary" />
-                <span className="hidden sm:inline">{weather.city},</span>
-                <span className="text-foreground font-bold">{weather.temp}°C</span>
-              </motion.div>
-            )}
           </div>
 
           {/* Desktop nav */}
@@ -265,7 +200,9 @@ const Header = () => {
               >
                 <span className="text-xl">&times;</span>
               </button>
-              <Lanyard />
+              <Suspense fallback={<div className="w-full h-full flex items-center justify-center text-white pointer-events-none">Loading 3D Card...</div>}>
+                <Lanyard />
+              </Suspense>
             </div>
           </motion.div>
         )}

@@ -4,16 +4,28 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import ChatBot from "../src/components/portfolio/ChatBot";
 import NotFound from "./pages/NotFound";
 import Clarity from "@microsoft/clarity";
+import React, { useEffect, Suspense, lazy } from "react";
+
 const queryClient = new QueryClient();
-import { useEffect } from "react";
+
+// Lazy load heavier components to prevent blocking FCP and TTI
+const ChatBot = lazy(() => import("../src/components/portfolio/ChatBot"));
 
 function App() {
   useEffect(() => {
     const projectId = "qm1frkauta";
-    Clarity.init(projectId);
+    // Defer Clarity to not block the main thread initially
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        Clarity.init(projectId);
+      });
+    } else {
+      setTimeout(() => {
+        Clarity.init(projectId);
+      }, 3000);
+    }
   }, []);
 
   return (
@@ -30,7 +42,9 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-        <ChatBot />
+        <Suspense fallback={null}>
+          <ChatBot />
+        </Suspense>
       </TooltipProvider>
     </QueryClientProvider>
   );

@@ -18,4 +18,17 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'three': ['three'],
+          'three-fiber': ['@react-three/fiber', '@react-three/drei'],
+          'rapier': ['@react-three/rapier'],
+          'framer': ['framer-motion'],
+          'vendor': ['react', 'react-dom', 'react-router-dom']
+        }
+      }
+    }
+  }
 }));

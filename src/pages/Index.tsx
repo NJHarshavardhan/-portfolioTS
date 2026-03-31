@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { ThemeProvider } from "next-themes";
 import { motion } from "framer-motion";
 import portfolioData from "@/data/portfolio.json";
 import LoadingScreen from "@/components/portfolio/LoadingScreen";
 import Header from "@/components/portfolio/Header";
 import Hero from "@/components/portfolio/Hero";
-import About from "@/components/portfolio/About";
-import Skills from "@/components/portfolio/Skills";
-import Projects from "@/components/portfolio/Projects";
-import Experience from "@/components/portfolio/Experience";
-import Education from "@/components/portfolio/Education";
-import Contact from "@/components/portfolio/Contact";
-import Footer from "@/components/portfolio/Footer";
-import NoiseOverlay from "@/components/portfolio/NoiseOverlay";
-import SectionDivider from "@/components/portfolio/SectionDivider";
+
+// Lazy load all below-the-fold components
+const About = lazy(() => import("@/components/portfolio/About"));
+const Skills = lazy(() => import("@/components/portfolio/Skills"));
+const Projects = lazy(() => import("@/components/portfolio/Projects"));
+const Experience = lazy(() => import("@/components/portfolio/Experience"));
+const Education = lazy(() => import("@/components/portfolio/Education"));
+const Contact = lazy(() => import("@/components/portfolio/Contact"));
+const Footer = lazy(() => import("@/components/portfolio/Footer"));
+const NoiseOverlay = lazy(() => import("@/components/portfolio/NoiseOverlay"));
+const SectionDivider = lazy(() => import("@/components/portfolio/SectionDivider"));
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +29,9 @@ const Index = () => {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <NoiseOverlay />
+      <Suspense fallback={null}>
+        <NoiseOverlay />
+      </Suspense>
       <LoadingScreen isLoading={isLoading} name={d.name} />
       {!isLoading && (
         <motion.div
@@ -38,20 +42,24 @@ const Index = () => {
           <Header />
           <main>
             <Hero name={d.name} titles={d.titles} about={d.about} />
-            <SectionDivider />
-            <About about={d.about} stats={d.stats} roles={d.roles} />
-            <SectionDivider />
-            <Skills skills={d.technical_skills} />
-            <SectionDivider />
-            <Projects projects={d.projects} />
-            <SectionDivider />
-            <Experience experience={d.experience} />
-            <SectionDivider />
-            <Education education={d.education} />
-            <SectionDivider />
-            <Contact contact={d.contact} />
+            <Suspense fallback={<div className="min-h-[200px]" />}>
+              <SectionDivider />
+              <About about={d.about} stats={d.stats} roles={d.roles} />
+              <SectionDivider />
+              <Skills skills={d.technical_skills} />
+              <SectionDivider />
+              <Projects projects={d.projects} />
+              <SectionDivider />
+              <Experience experience={d.experience} />
+              <SectionDivider />
+              <Education education={d.education} />
+              <SectionDivider />
+              <Contact contact={d.contact} />
+            </Suspense>
           </main>
-          <Footer name={d.name} contact={d.contact} />
+          <Suspense fallback={null}>
+            <Footer name={d.name} contact={d.contact} />
+          </Suspense>
         </motion.div>
       )}
     </ThemeProvider>
