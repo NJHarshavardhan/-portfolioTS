@@ -11,9 +11,9 @@ import React, { useEffect, Suspense, lazy } from "react";
 const queryClient = new QueryClient();
 
 // Lazy load heavier components to prevent blocking FCP and TTI
-const ChatBot = lazy(() => import("../src/components/portfolio/ChatBot"));
-const Games = lazy(() => import("./pages/Games"));
-const TicTacToePage = lazy(() => import("./pages/TicTacToePage"));
+const ChatBot = lazy(() => import("@/components/portfolio/ChatBot"));
+const Games = lazy(() => import("@/pages/Games"));
+const TicTacToePage = lazy(() => import("@/pages/TicTacToePage"));
 
 function App() {
   useEffect(() => {
