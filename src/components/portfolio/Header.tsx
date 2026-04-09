@@ -60,18 +60,19 @@ const Header = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-background/60 backdrop-blur-xl border-b border-white/10 shadow-sm" : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? "glass border-b border-white/5 py-2 shadow-2xl" : "bg-transparent py-4"
         }`}
       >
-        <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
+        <nav className="container mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <motion.span
               whileHover={{ scale: 1.05 }}
-              className="text-xl font-heading font-bold text-foreground cursor-pointer"
+              className="text-2xl font-heading font-bold text-foreground cursor-pointer flex items-center gap-1"
               onClick={handleLogoClick}
             >
-              {en.header.logo}<span className="text-primary">.</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-primary/80">{en.header.logo}</span>
+              <span className="text-primary text-3xl">.</span>
             </motion.span>
           </div>
 
@@ -80,7 +81,8 @@ const Header = () => {
             {navItems.map((item) => (
               <motion.button
                 key={item}
-                whileHover={{ y: -2 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => scrollTo(item)}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer relative group"
               >

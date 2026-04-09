@@ -56,10 +56,10 @@ float lineFn(vec2 st, float width, float perc, float offset, vec2 mouse, float t
     float split_offset = (perc * 0.4);
     float split_point = 0.1 + split_offset;
 
-    float amplitude_normal = smoothstep(split_point, 0.7, st.x);
-    float amplitude_strength = 0.5;
+    float amplitude_normal = smoothstep(split_point - 0.2, 0.7, st.x);
+    float amplitude_strength = 0.6;
     float finalAmplitude = amplitude_normal * amplitude_strength
-                           * amplitude * (1.0 + (mouse.y - 0.5) * 0.2);
+                           * amplitude * (1.1 + (mouse.y - 0.5) * 0.3);
 
     float time_scaled = time / 10.0 + (mouse.x - 0.5) * 1.0;
     float blur = smoothstep(split_point, split_point + 0.05, st.x) * perc;
@@ -134,6 +134,15 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
     if (!containerRef.current) return;
     const container = containerRef.current;
 
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
+
     const renderer = new Renderer({ alpha: true });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
@@ -191,6 +200,11 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
     }
 
     function update(t: number) {
+      if (!isVisible) {
+        animationFrameId.current = requestAnimationFrame(update);
+        return;
+      }
+
       if (enableMouseInteraction) {
         const smoothing = 0.05;
         currentMouse[0] += smoothing * (targetMouse[0] - currentMouse[0]);
@@ -211,6 +225,7 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
     return () => {
       if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
       window.removeEventListener('resize', resize);
+      observer.disconnect();
 
       if (enableMouseInteraction) {
         container.removeEventListener('mousemove', handleMouseMove);

@@ -16,6 +16,16 @@ const AuroraBackground = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(canvas);
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -30,6 +40,11 @@ const AuroraBackground = ({
     window.addEventListener("resize", resize);
 
     const draw = () => {
+      if (!isVisible) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+
       time += 0.003 * speed;
       const { width, height } = canvas;
       ctx.clearRect(0, 0, width, height);
@@ -56,6 +71,7 @@ const AuroraBackground = ({
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
+      observer.disconnect();
     };
   }, [colorStops, speed]);
 

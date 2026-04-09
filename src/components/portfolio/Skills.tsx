@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
-import CodeBackground from "./CodeBackground";
 import ScrollFloat from "./ScrollFloat";
 import SplitText from "./SplitText";
 import BounceCard from "./BounceCard";
@@ -37,17 +36,7 @@ const Skills = ({ skills }: SkillsProps) => {
       id="skills"
       className="py-16 sm:py-24 relative overflow-hidden"
     >
-      <CodeBackground />
-      <div className="absolute inset-0 -z-20">
-        <img
-          src={skillsBg}
-          alt=""
-          className="w-full h-full object-cover opacity-[0.04] dark:opacity-[0.08]"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl -z-10" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
 
       <div className="container mx-auto px-6">
         <motion.div

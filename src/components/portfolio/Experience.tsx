@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import AnimatedSection from "./AnimatedSection";
-import CodeBackground from "./CodeBackground";
 import CardSwap, { Card } from "./CardSwap";
 import ScrollFloat from "./ScrollFloat";
 import SplitText from "./SplitText";
@@ -13,7 +12,6 @@ import {
   ChevronRight,
   Zap,
 } from "lucide-react";
-import experienceBg from "@/assets/experience-bg.jpg";
 
 interface ExperienceItem {
   company: string;
@@ -101,17 +99,7 @@ const Experience = ({ experience }: ExperienceProps) => {
       id="experience"
       className="py-16 sm:py-24 relative overflow-hidden"
     >
-      {/* Background */}
-      <div className="absolute inset-0 -z-20">
-        <img
-          src={experienceBg}
-          alt=""
-          className="w-full h-full object-cover opacity-[0.06] dark:opacity-[0.12]"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
-      <CodeBackground />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
 
       <div className="container mx-auto px-6">
         {/* Section heading */}

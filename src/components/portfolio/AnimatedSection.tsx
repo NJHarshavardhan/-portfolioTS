@@ -10,10 +10,10 @@ interface AnimatedSectionProps {
 const AnimatedSection = ({ children, className = "", id }: AnimatedSectionProps) => (
   <motion.section
     id={id}
-    initial={{ opacity: 0, y: 60 }}
+    initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+    viewport={{ once: true, margin: "-120px" }}
+    transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
     className={className}
   >
     {children}

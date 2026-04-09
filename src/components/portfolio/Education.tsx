@@ -19,8 +19,8 @@ interface EducationProps {
 
 const Education = ({ education }: EducationProps) => {
   return (
-    <AnimatedSection id="education" className="py-16 sm:py-24 relative">
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-primary/5 blur-3xl -z-10" />
+    <AnimatedSection id="education" className="py-16 sm:py-24 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
 
       <div className="container mx-auto px-6">
         <motion.div

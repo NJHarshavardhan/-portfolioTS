@@ -14,14 +14,13 @@ const Experience = lazy(() => import("@/components/portfolio/Experience"));
 const Education = lazy(() => import("@/components/portfolio/Education"));
 const Contact = lazy(() => import("@/components/portfolio/Contact"));
 const Footer = lazy(() => import("@/components/portfolio/Footer"));
-const NoiseOverlay = lazy(() => import("@/components/portfolio/NoiseOverlay"));
 const SectionDivider = lazy(() => import("@/components/portfolio/SectionDivider"));
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2800);
+    const timer = setTimeout(() => setIsLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -29,9 +28,6 @@ const Index = () => {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <Suspense fallback={null}>
-        <NoiseOverlay />
-      </Suspense>
       <LoadingScreen isLoading={isLoading} name={d.name} />
       {!isLoading && (
         <motion.div

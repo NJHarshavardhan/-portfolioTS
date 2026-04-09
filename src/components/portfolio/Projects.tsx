@@ -3,8 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, X, Smartphone, Apple, Store, Layers } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
-import GridPattern from "./GridPattern";
-import CodeBackground from "./CodeBackground";
 import ScrollFloat from "./ScrollFloat";
 import SplitText from "./SplitText";
 import BounceCard from "./BounceCard";
@@ -42,14 +40,7 @@ const Projects = ({ projects }: ProjectsProps) => {
 
   return (
     <AnimatedSection id="projects" className="py-16 sm:py-24 relative overflow-hidden">
-      <GridPattern />
-      <CodeBackground />
-      <div className="absolute inset-0 -z-20">
-        <img src={projectsBg} alt="" className="w-full h-full object-cover opacity-[0.04] dark:opacity-[0.1]" loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-3xl -z-10" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
 
       <div className="container mx-auto px-6">
         <motion.div

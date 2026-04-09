@@ -1,14 +1,11 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
-import AuroraBackground from "./AuroraBackground";
-import FloatingParticles from "./FloatingParticles";
 import MagneticButton from "./MagneticButton";
-import GridPattern from "./GridPattern";
-import Threads from "./Threads";
 import ScrollFloat from "./ScrollFloat";
 import SplitText from "./SplitText";
-import AntigravityBackground from "./AntigravityBackground";
+import SplitTextChar from "./SplitTextChar";
+import Threads from "./Threads";
+import { useEffect, useState } from "react";
 
 interface HeroProps {
   name: string;
@@ -30,8 +27,8 @@ const Hero = ({ name, titles, about }: HeroProps) => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Threads background behind name area */}
-      <div className="absolute inset-0 -z-20 opacity-30 dark:opacity-50">
+      {/* Wave background restored as requested */}
+      <div className="absolute inset-0 -z-20 opacity-40 dark:opacity-60">
         <Threads
           color={[0.55, 0.36, 0.96]}
           amplitude={1.2}
@@ -40,18 +37,8 @@ const Hero = ({ name, titles, about }: HeroProps) => {
         />
       </div>
 
-      {/* Layered backgrounds */}
-      <AuroraBackground speed={0.8} />
-      <FloatingParticles count={30} />
-      <GridPattern />
-      <AntigravityBackground />
-
-      {/* Decorative orbs */}
-      <div className="absolute top-20 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/8 blur-3xl animate-blob" />
-      <div className="absolute bottom-20 left-[10%] w-[350px] h-[350px] rounded-full bg-accent/10 blur-3xl animate-blob animation-delay-2000" />
-
-      {/* Radial gradient overlay */}
-      <div className="absolute inset-0 -z-5 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--background))_70%)]" />
+      {/* Minimal clean background overlay */}
+      <div className="absolute inset-0 -z-5 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
 
       <div className="container mx-auto px-6 relative z-10">
         <ScrollFloat className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 relative">
@@ -59,20 +46,22 @@ const Hero = ({ name, titles, about }: HeroProps) => {
           <div className="flex-1 text-center lg:text-left max-w-2xl relative">
             {/* Greeting badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 glass rounded-full mb-6"
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="inline-flex items-center gap-2.5 px-4 py-2 glass rounded-full mb-8 border border-white/10 dark:border-white/5"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-sm text-muted-foreground font-body">
-                Available for opportunities
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span className="text-xs sm:text-sm font-medium tracking-wide text-foreground/80 font-body uppercase">
+                Available for new projects
               </span>
             </motion.div>
 
-            {/* Name */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-bold mb-6 text-foreground">
-              <SplitText text={name} />
+            <h1 className="text-[clamp(1.75rem,8vw,5rem)] mb-10 text-foreground font-black tracking-tighter drop-shadow-md whitespace-nowrap overflow-visible leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <SplitTextChar text={name} delay={0.2} />
             </h1>
 
             {/* Rotating title */}
@@ -118,52 +107,52 @@ const Hero = ({ name, titles, about }: HeroProps) => {
 
             {/* CTA buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.6 }}
-              className="flex flex-wrap justify-center lg:justify-start gap-4"
-            >
-              <MagneticButton strength={0.2}>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() =>
-                    document
-                      .getElementById("projects")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
-                  className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 cursor-pointer shadow-[0_0_30px_hsl(var(--ring)/0.25)] hover:shadow-[0_0_50px_hsl(var(--ring)/0.4)] transition-shadow"
-                >
-                  View Projects <ExternalLink className="w-4 h-4" />
-                </motion.button>
-              </MagneticButton>
-              <MagneticButton strength={0.2}>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() =>
-                    document
-                      .getElementById("contact")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
-                  className="px-8 py-3 glass rounded-full font-medium text-foreground flex items-center gap-2 cursor-pointer hover:border-primary/40 transition-colors"
-                >
-                  Contact Me
-                </motion.button>
-              </MagneticButton>
-              <MagneticButton strength={0.2}>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() =>
-                    window.open("/Harsha-Resume-New.pdf", "_blank")
-                  }
-                  className="px-8 py-3 glass rounded-full font-medium text-foreground flex items-center gap-2 cursor-pointer hover:border-primary/40 transition-colors"
-                >
-                  Resume
-                </motion.button>
-              </MagneticButton>
-            </motion.div>
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 1.2, duration: 0.8 }}
+               className="flex flex-wrap justify-center lg:justify-start gap-5"
+             >
+               <MagneticButton strength={0.15}>
+                 <motion.button
+                   whileHover={{ scale: 1.02 }}
+                   whileTap={{ scale: 0.98 }}
+                   onClick={() =>
+                     document
+                       .getElementById("projects")
+                       ?.scrollIntoView({ behavior: "smooth" })
+                   }
+                   className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold flex items-center gap-2.5 cursor-pointer primary-glow shadow-xl transition-all"
+                 >
+                   Explore Work <ExternalLink className="w-4 h-4" />
+                 </motion.button>
+               </MagneticButton>
+               <MagneticButton strength={0.15}>
+                 <motion.button
+                   whileHover={{ scale: 1.02 }}
+                   whileTap={{ scale: 0.98 }}
+                   onClick={() =>
+                     document
+                       .getElementById("contact")
+                       ?.scrollIntoView({ behavior: "smooth" })
+                   }
+                   className="px-8 py-4 glass rounded-full font-semibold text-foreground flex items-center gap-2.5 cursor-pointer hover:bg-white/5 transition-all border border-white/10"
+                 >
+                   Get in Touch
+                 </motion.button>
+               </MagneticButton>
+               <MagneticButton strength={0.15}>
+                 <motion.button
+                   whileHover={{ scale: 1.02 }}
+                   whileTap={{ scale: 0.98 }}
+                   onClick={() =>
+                     window.open("/Harsha-Resume-New.pdf", "_blank")
+                   }
+                   className="px-8 py-4 glass rounded-full font-semibold text-foreground flex items-center gap-2.5 cursor-pointer hover:bg-white/5 transition-all border border-white/10"
+                 >
+                   Resume
+                 </motion.button>
+               </MagneticButton>
+             </motion.div>
           </div>
         </ScrollFloat>
       </div>

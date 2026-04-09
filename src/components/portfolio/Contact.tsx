@@ -4,13 +4,11 @@ import { motion } from "framer-motion";
 import { z } from "zod";
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
-import GridPattern from "./GridPattern";
 import ScrollFloat from "./ScrollFloat";
 import SplitText from "./SplitText";
 import BounceCard from "./BounceCard";
 import DecayCard from "./DecayCard";
 import { Mail, Linkedin, Github, Phone, Send, CheckCircle, Sparkles, Download } from "lucide-react";
-import Aurora from "./Aurora";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -93,17 +91,7 @@ const Contact = ({ contact }: ContactProps) => {
 
   return (
     <AnimatedSection id="contact" className="py-16 sm:py-24 relative overflow-hidden">
-      {isDark && (
-        <div className="absolute inset-0 -z-10">
-          <Aurora
-            colorStops={auroraColors}
-            blend={0.5}
-            amplitude={1.0}
-            speed={1}
-          />
-        </div>
-      )}
-      <GridPattern />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
 
       <ScrollFloat className="container mx-auto px-6" intensity={18}>
         <motion.div

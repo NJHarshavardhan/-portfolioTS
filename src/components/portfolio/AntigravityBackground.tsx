@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const bubbles = Array.from({ length: 12 }, (_, i) => i);
+const bubbles = Array.from({ length: 6 }, (_, i) => i);
 
 const AntigravityBackground = () => {
   return (
@@ -8,7 +8,7 @@ const AntigravityBackground = () => {
       {bubbles.map((i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full bg-primary/12 dark:bg-primary/18 blur-2xl"
+          className="absolute rounded-full bg-primary/10 dark:bg-primary/15 blur-xl"
           initial={{
             x: `${Math.random() * 100}%`,
             y: "110%",
@@ -20,14 +20,14 @@ const AntigravityBackground = () => {
             opacity: [0, 1, 0],
           }}
           transition={{
-            duration: 14 + Math.random() * 10,
-            delay: Math.random() * 6,
+            duration: 16 + Math.random() * 8,
+            delay: Math.random() * 10,
             repeat: Infinity,
             ease: "linear",
           }}
           style={{
-            width: 140 + Math.random() * 160,
-            height: 140 + Math.random() * 160,
+            width: 100 + Math.random() * 120,
+            height: 100 + Math.random() * 120,
             left: `${Math.random() * 100}%`,
           }}
         />

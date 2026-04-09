@@ -2,13 +2,10 @@ import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
-import GridPattern from "./GridPattern";
-import CodeBackground from "./CodeBackground";
 import ScrollFloat from "./ScrollFloat";
 import SplitText from "./SplitText";
 import BounceCard from "./BounceCard";
 import DecayCard from "./DecayCard";
-import AuroraBackground from "./AuroraBackground";
 import ScrollFloatText from "./ScrollFloatText";
 import { Trophy, Target, Users, Coffee, Code, Smartphone, Server, Brain, Bot, Monitor } from "lucide-react";
 
@@ -79,13 +76,7 @@ const Counter = ({ value }: { value: string }) => {
 const About = ({ about, stats, roles }: AboutProps) => {
   return (
     <AnimatedSection id="about" className="py-16 sm:py-24 relative overflow-hidden">
-      <AuroraBackground speed={0.6} />
-      <GridPattern />
-      <CodeBackground />
-      
-      {/* Decorative gradient orb */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-3xl -z-10" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
 
       <div className="container mx-auto px-6">
         <motion.div
