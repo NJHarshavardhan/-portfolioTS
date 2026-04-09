@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 const Lanyard = lazy(() => import("./Lanyard"));
 import en from "../../data/en.json";
 
-const navItems = ["About", "Skills", "Projects", "Experience", "Contact"];
+const navItems = ["About", "Skills", "Projects", "Games", "Experience", "Contact"];
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -45,8 +46,25 @@ const Header = () => {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (item: string) => {
+    if (item === "Games") {
+      navigate("/games");
+      setMobileOpen(false);
+      return;
+    }
+
+    if (location.pathname !== "/") {
+      navigate("/");
+      // Wait for navigation to complete before scrolling
+      setTimeout(() => {
+        document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+    }
     setMobileOpen(false);
   };
 
@@ -83,7 +101,7 @@ const Header = () => {
                 key={item}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => scrollTo(item)}
+                onClick={() => handleNavClick(item)}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer relative group"
               >
                 {item}
@@ -165,7 +183,7 @@ const Header = () => {
                     initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
-                    onClick={() => scrollTo(item)}
+                    onClick={() => handleNavClick(item)}
                     className="text-left py-3 px-4 rounded-xl text-base font-medium text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all cursor-pointer group flex items-center gap-3"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary group-hover:scale-125 transition-all" />

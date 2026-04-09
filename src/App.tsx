@@ -12,6 +12,8 @@ const queryClient = new QueryClient();
 
 // Lazy load heavier components to prevent blocking FCP and TTI
 const ChatBot = lazy(() => import("../src/components/portfolio/ChatBot"));
+const Games = lazy(() => import("./pages/Games"));
+const TicTacToePage = lazy(() => import("./pages/TicTacToePage"));
 
 function App() {
   useEffect(() => {
@@ -38,6 +40,8 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/games/tictactoe" element={<TicTacToePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
