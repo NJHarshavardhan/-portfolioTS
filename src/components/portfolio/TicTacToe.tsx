@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Circle, RotateCcw, Trophy, Users, Cpu } from "lucide-react";
+import { X, Circle, RotateCcw, Trophy, Users, Cpu, LayoutGrid } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import ScrollFloatText from "./ScrollFloatText";
 import SpotlightCard from "./SpotlightCard";
@@ -8,35 +8,59 @@ import SpotlightCard from "./SpotlightCard";
 type Player = "X" | "O";
 type CellValue = Player | null;
 
+const GRID_SIZES = [3, 4, 6, 8];
+
 const TicTacToe = () => {
+  const [gridSize, setGridSize] = useState(3);
   const [board, setBoard] = useState<CellValue[]>(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   const [winner, setWinner] = useState<CellValue | "Draw">(null);
   const [isSinglePlayer, setIsSinglePlayer] = useState(true);
   const [winningLine, setWinningLine] = useState<number[] | null>(null);
 
+  // Generate winning lines dynamically based on grid size
+  const winningLines = useMemo(() => {
+    const lines: number[][] = [];
+    const size = gridSize;
+
+    // Rows
+    for (let r = 0; r < size; r++) {
+      const row = [];
+      for (let c = 0; c < size; c++) row.push(r * size + c);
+      lines.push(row);
+    }
+
+    // Columns
+    for (let c = 0; c < size; c++) {
+      const col = [];
+      for (let r = 0; r < size; r++) col.push(r * size + c);
+      lines.push(col);
+    }
+
+    // Diagonals
+    const diag1 = [];
+    for (let i = 0; i < size; i++) diag1.push(i * size + i);
+    lines.push(diag1);
+
+    const diag2 = [];
+    for (let i = 0; i < size; i++) diag2.push(i * size + (size - 1 - i));
+    lines.push(diag2);
+
+    return lines;
+  }, [gridSize]);
+
   const calculateWinner = useCallback((squares: CellValue[]) => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return { winner: squares[a], line: lines[i] };
+    for (const line of winningLines) {
+      const first = squares[line[0]];
+      if (first && line.every(idx => squares[idx] === first)) {
+        return { winner: first, line };
       }
     }
     if (squares.every((square) => square !== null)) {
       return { winner: "Draw" as const, line: null };
     }
     return null;
-  }, []);
+  }, [winningLines]);
 
   const handleClick = (i: number) => {
     if (winner || board[i]) return;
@@ -56,12 +80,6 @@ const TicTacToe = () => {
   const makeAiMove = useCallback(() => {
     if (winner || isXNext) return;
 
-    // AI logic: 
-    // 1. Can AI win?
-    // 2. Can AI block player?
-    // 3. Take center.
-    // 4. Random.
-    
     const availableMoves = board.map((val, idx) => (val === null ? idx : null)).filter((val) => val !== null) as number[];
     if (availableMoves.length === 0) return;
 
@@ -81,13 +99,19 @@ const TicTacToe = () => {
     move = findWinningMove("O");
     // 2. Try to block X
     if (move === -1) move = findWinningMove("X");
-    // 3. Center
-    if (move === -1 && availableMoves.includes(4)) move = 4;
+    
+    // 3. Strategic moves for larger grids
+    if (move === -1) {
+      const mid = Math.floor(gridSize / 2);
+      const centerIdx = mid * gridSize + mid;
+      if (availableMoves.includes(centerIdx)) move = centerIdx;
+    }
+
     // 4. Random
     if (move === -1) move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
 
     setTimeout(() => handleClick(move), 600);
-  }, [board, isXNext, winner, calculateWinner]);
+  }, [board, isXNext, winner, calculateWinner, gridSize]);
 
   useEffect(() => {
     if (isSinglePlayer && !isXNext && !winner) {
@@ -96,7 +120,15 @@ const TicTacToe = () => {
   }, [isXNext, isSinglePlayer, winner, makeAiMove]);
 
   const resetGame = () => {
-    setBoard(Array(9).fill(null));
+    setBoard(Array(gridSize * gridSize).fill(null));
+    setIsXNext(true);
+    setWinner(null);
+    setWinningLine(null);
+  };
+
+  const handleSizeChange = (size: number) => {
+    setGridSize(size);
+    setBoard(Array(size * size).fill(null));
     setIsXNext(true);
     setWinner(null);
     setWinningLine(null);
@@ -123,133 +155,203 @@ const TicTacToe = () => {
             containerClassName="my-0"
             textClassName="text-3xl sm:text-5xl font-heading font-bold text-foreground"
           >
-            Tic Tac Toe
+            Ultimate X / O
           </ScrollFloatText>
           <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-primary/40" />
         </motion.div>
 
-        <div className="max-w-4xl mx-auto flex flex-col lg:flex-row gap-12 items-center justify-center">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 items-start justify-center">
           {/* Controls & Stats */}
-          <div className="w-full lg:w-1/3 flex flex-col gap-6">
-            <SpotlightCard className="glass p-6 rounded-2xl border border-white/5 shadow-xl">
-              <h3 className="text-xl font-heading font-semibold mb-4 text-foreground flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-yellow-500" />
-                Game Mode
+          <div className="w-full lg:w-[320px] flex flex-col gap-6 sticky top-24">
+            <SpotlightCard className="glass p-6 rounded-3xl border border-white/5 shadow-xl">
+              <h3 className="text-lg font-heading font-semibold mb-4 text-foreground flex items-center gap-2">
+                <LayoutGrid className="w-5 h-5 text-primary" />
+                Grid Size
               </h3>
-              <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-4 gap-2">
+                {GRID_SIZES.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => handleSizeChange(size)}
+                    className={`h-12 rounded-xl text-sm font-bold transition-all border ${
+                      gridSize === size 
+                        ? "bg-primary text-primary-foreground border-primary shadow-[0_0_15px_hsl(var(--primary)/0.3)]" 
+                        : "glass hover:bg-white/10 border-white/10 text-muted-foreground"
+                    }`}
+                  >
+                    {size}x{size}
+                  </button>
+                ))}
+              </div>
+            </SpotlightCard>
+
+            <SpotlightCard className="glass p-6 rounded-3xl border border-white/5 shadow-xl">
+              <h3 className="text-lg font-heading font-semibold mb-4 text-foreground flex items-center gap-2">
+                <Users className="w-5 h-5 text-primary" />
+                Opponent
+              </h3>
+              <div className="flex flex-col gap-2">
                 <button
                   onClick={() => { setIsSinglePlayer(true); resetGame(); }}
-                  className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+                  className={`flex items-center justify-between p-3 rounded-xl transition-all border ${
                     isSinglePlayer 
                       ? "bg-primary/20 border-primary/30 text-primary" 
-                      : "bg-white/5 border-white/10 text-muted-foreground hover:bg-white/10"
-                  } border`}
+                      : "glass border-white/10 text-muted-foreground hover:bg-white/10"
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     <Cpu className="w-4 h-4" />
-                    <span className="font-body font-medium">Player vs AI</span>
+                    <span className="font-body font-medium">VS AI</span>
                   </div>
-                  {isSinglePlayer && <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />}
                 </button>
                 <button
                   onClick={() => { setIsSinglePlayer(false); resetGame(); }}
-                  className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+                  className={`flex items-center justify-between p-3 rounded-xl transition-all border ${
                     !isSinglePlayer 
                       ? "bg-primary/20 border-primary/30 text-primary" 
-                      : "bg-white/5 border-white/10 text-muted-foreground hover:bg-white/10"
-                  } border`}
+                      : "glass border-white/10 text-muted-foreground hover:bg-white/10"
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     <Users className="w-4 h-4" />
-                    <span className="font-body font-medium">Player vs Player</span>
+                    <span className="font-body font-medium">VS Friend</span>
                   </div>
-                  {!isSinglePlayer && <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />}
                 </button>
               </div>
             </SpotlightCard>
 
-            <SpotlightCard className="glass p-6 rounded-2xl border border-white/5 shadow-xl">
+            <SpotlightCard className="glass p-6 rounded-3xl border border-white/5 shadow-xl">
               <div className="flex flex-col items-center gap-4">
-                <div className="text-sm font-body text-muted-foreground uppercase tracking-widest">
-                  {winner ? "Game Over" : "Current Turn"}
+                <div className="text-xs font-body text-muted-foreground uppercase tracking-widest">
+                  {winner ? "Match Result" : "Active Player"}
                 </div>
                 
                 <AnimatePresence mode="wait">
                   {winner ? (
                     <motion.div
                       key="winner"
-                      initial={{ scale: 0.5, opacity: 0 }}
+                      initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className="text-2xl font-heading font-bold text-primary flex items-center gap-2"
+                      className="text-xl font-heading font-bold text-primary flex flex-col items-center gap-2"
                     >
                       {winner === "Draw" ? (
-                        "It's a Draw!"
+                        <div className="flex items-center gap-2">🤝 Draw Match</div>
                       ) : (
-                        <>
-                          {winner === "X" ? <X className="w-8 h-8" /> : <Circle className="w-7 h-7" />}
-                          Wins!
-                        </>
+                        <div className="flex items-center gap-3">
+                          <Trophy className="w-6 h-6 text-yellow-500 animate-bounce" />
+                          <span className="flex items-center gap-2">
+                            {winner === "X" ? <X className="w-6 h-6" /> : <Circle className="w-5 h-5" />} Win!
+                          </span>
+                        </div>
                       )}
                     </motion.div>
                   ) : (
                     <motion.div
                       key="turn"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-2xl font-heading font-bold text-foreground flex items-center gap-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-xl font-heading font-bold text-foreground flex items-center gap-2"
                     >
-                      {isXNext ? <X className="w-8 h-8 text-primary" /> : <Circle className="w-7 h-7 text-primary" />}
-                      {isXNext ? "Player X" : isSinglePlayer ? "AI (O)" : "Player O"}
+                      {isXNext ? <X className="w-7 h-7 text-primary" /> : <Circle className="w-6 h-6 text-primary" />}
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/60">
+                        {isXNext ? "Player X" : isSinglePlayer ? "Neural AI" : "Player O"}
+                      </span>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
                 <button
                   onClick={resetGame}
-                  className="mt-2 flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-full font-body font-semibold hover:opacity-90 transition-all shadow-[0_0_20px_hsl(var(--primary)/0.2)]"
+                  className="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-body font-bold hover:opacity-90 transition-all shadow-[0_0_20px_hsl(var(--primary)/0.25)] group"
                 >
-                  <RotateCcw className="w-4 h-4" />
-                  Reset Game
+                  <RotateCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+                  Restart Match
                 </button>
               </div>
             </SpotlightCard>
           </div>
 
-          {/* Game Board */}
-          <div className="relative">
-            {/* Background Glow */}
-            <div className="absolute -inset-4 bg-primary/10 blur-3xl -z-10 rounded-full" />
-            
-            <div className="grid grid-cols-3 gap-3">
+          {/* Game Board Container */}
+          <div className="flex-1 flex justify-center w-full">
+            <div 
+              className="grid gap-2 sm:gap-3 p-4 glass-strong rounded-[2.5rem] border border-white/5 shadow-2xl relative"
+              style={{
+                gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
+                width: '100%',
+                maxWidth: gridSize <= 4 ? '500px' : gridSize === 6 ? '600px' : '700px'
+              }}
+            >
+              <div className="absolute -inset-10 bg-primary/5 blur-[100px] pointer-events-none -z-10" />
+              
               {board.map((cell, idx) => {
                 const isWinningCell = winningLine?.includes(idx);
                 return (
                   <motion.button
-                    key={idx}
-                    whileHover={{ scale: cell || winner ? 1 : 1.05 }}
-                    whileTap={{ scale: cell || winner ? 1 : 0.95 }}
+                    key={`${gridSize}-${idx}`}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: idx * 0.01 }}
+                    whileHover={{ scale: cell || winner ? 1 : 1.02 }}
+                    whileTap={{ scale: cell || winner ? 1 : 0.98 }}
                     onClick={() => handleClick(idx)}
-                    className={`w-24 h-24 sm:w-32 sm:h-32 glass-strong rounded-2xl flex items-center justify-center text-primary transition-all duration-300 ${
-                      !cell && !winner ? "hover:bg-primary/5 cursor-pointer" : "cursor-default"
-                    } ${isWinningCell ? "bg-primary/20 border-primary/50 shadow-[0_0_30px_hsl(var(--primary)/0.3)] ring-2 ring-primary/40" : "border-white/5"}`}
+                    className={`aspect-square glass rounded-xl sm:rounded-2xl flex items-center justify-center text-primary transition-all duration-300 relative overflow-hidden ${
+                      !cell && !winner ? "hover:bg-primary/5 hover:border-primary/20 cursor-pointer" : "cursor-default"
+                    } ${isWinningCell ? "bg-primary/20 border-primary/40" : "border-white/10"}`}
                   >
-                    <AnimatePresence>
+                    {/* Blooming Effect for Winning Cells */}
+                    {isWinningCell && (
+                      <motion.div
+                        className="absolute inset-0 bg-primary/20 blur-xl"
+                        animate={{ 
+                          scale: [1, 1.3, 1],
+                          opacity: [0.3, 0.6, 0.3]
+                        }}
+                        transition={{ 
+                          duration: 2, 
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      />
+                    )}
+                    
+                    <AnimatePresence mode="popLayout">
                       {cell === "X" && (
                         <motion.div
+                          key="X"
                           initial={{ scale: 0, rotate: -45, opacity: 0 }}
-                          animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                          animate={{ 
+                            scale: 1, 
+                            rotate: 0, 
+                            opacity: 1,
+                            filter: isWinningCell ? "drop-shadow(0 0 10px hsl(var(--primary)))" : "none"
+                          }}
                           transition={{ type: "spring", damping: 12, stiffness: 200 }}
                         >
-                          <X className="w-12 h-12 sm:w-16 sm:h-16 stroke-[2.5]" />
+                          <X 
+                            strokeWidth={2.5}
+                            className={`${
+                              gridSize <= 4 ? "w-12 h-12" : gridSize === 6 ? "w-8 h-8" : "w-6 h-6"
+                            }`} 
+                          />
                         </motion.div>
                       )}
                       {cell === "O" && (
                         <motion.div
+                          key="O"
                           initial={{ scale: 0, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
+                          animate={{ 
+                            scale: 1, 
+                            opacity: 1,
+                            filter: isWinningCell ? "drop-shadow(0 0 10px hsl(var(--primary)))" : "none"
+                          }}
                           transition={{ type: "spring", damping: 12, stiffness: 200 }}
                         >
-                          <Circle className="w-10 h-10 sm:w-14 sm:h-14 stroke-[2.5]" />
+                          <Circle 
+                            strokeWidth={2.5}
+                            className={`${
+                              gridSize <= 4 ? "w-10 h-10" : gridSize === 6 ? "w-7 h-7" : "w-5 h-5"
+                            }`} 
+                          />
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -257,9 +359,6 @@ const TicTacToe = () => {
                 );
               })}
             </div>
-            
-            {/* Board Grid Lines (Optional decorative) */}
-            <div className="absolute inset-0 pointer-events-none -z-10 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.05),transparent_80%)]" />
           </div>
         </div>
       </div>

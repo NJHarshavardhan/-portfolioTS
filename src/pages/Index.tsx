@@ -1,5 +1,4 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { ThemeProvider } from "next-themes";
 import { motion } from "framer-motion";
 import portfolioData from "@/data/portfolio.json";
 import LoadingScreen from "@/components/portfolio/LoadingScreen";
@@ -27,7 +26,7 @@ const Index = () => {
   const d = portfolioData;
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+    <>
       <LoadingScreen isLoading={isLoading} name={d.name} />
       {!isLoading && (
         <motion.div
@@ -58,7 +57,7 @@ const Index = () => {
           </Suspense>
         </motion.div>
       )}
-    </ThemeProvider>
+    </>
   );
 };
 
