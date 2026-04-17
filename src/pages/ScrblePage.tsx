@@ -15,7 +15,7 @@ import ScrbleBoard from '@/components/scrble/ScrbleBoard';
 import ScrbleChat from '@/components/scrble/ScrbleChat';
 import type { Player, GameState, Stroke, ChatMessage } from '@/components/scrble/types';
 
-const WORDS = [
+const FALLBACK_WORDS = [
   'cat', 'dog', 'house', 'tree', 'sun', 'apple', 'car', 'flower', 
   'pizza', 'banana', 'moon', 'bird', 'fish', 'computer', 'spider',
   'ghost', 'ocean', 'mountain', 'robot', 'dragon'
@@ -25,6 +25,7 @@ export default function ScrblePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const d = portfolioData;
 
+  const [dbWords, setDbWords] = useState<string[]>(FALLBACK_WORDS);
   const [gameState, setGameState] = useState<GameState>('lobby');
   const [playerName, setPlayerName] = useState('');
   const [roomId, setRoomId] = useState(searchParams.get('room') || '');
@@ -40,6 +41,17 @@ export default function ScrblePage() {
   const localPlayerIdRef = useRef(`player-${Math.random().toString(36).substring(2, 9)}`);
 
   useEffect(() => {
+    // Fetch words from Supabase DB on mount
+    const fetchWords = async () => {
+      const { data, error } = await supabase.from('gamewords').select('word');
+      if (data && !error && data.length > 0) {
+        setDbWords(data.map(d => d.word));
+      } else {
+        console.warn("Failed to load words from Supabase, reverting to fallback list.", error);
+      }
+    };
+    fetchWords();
+
     return () => {
       if (channelRef.current) {
         supabase.removeChannel(channelRef.current);
@@ -142,7 +154,7 @@ export default function ScrblePage() {
 
   const startGame = () => {
     if (!isHost) return;
-    const word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    const word = dbWords[Math.floor(Math.random() * dbWords.length)];
     setActiveWord(word);
     setGameState('playing');
     setStrokes([]);
@@ -173,7 +185,7 @@ export default function ScrblePage() {
 
   const handleSkipWord = () => {
     if (!isHost) return;
-    const word = WORDS[Math.floor(Math.random() * WORDS.length)];
+    const word = dbWords[Math.floor(Math.random() * dbWords.length)];
     setActiveWord(word);
     setStrokes([]);
     channelRef.current?.send({
