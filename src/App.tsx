@@ -15,6 +15,7 @@ const queryClient = new QueryClient();
 const ChatBot = lazy(() => import("@/components/portfolio/ChatBot"));
 const Games = lazy(() => import("@/pages/Games"));
 const TicTacToePage = lazy(() => import("@/pages/TicTacToePage"));
+const ScrblePage = lazy(() => import("@/pages/ScrblePage"));
 
 function App() {
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
               <Route path="/" element={<Index />} />
               <Route path="/games" element={<Games />} />
               <Route path="/games/tictactoe" element={<TicTacToePage />} />
+              <Route path="/games/scrble" element={<ScrblePage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

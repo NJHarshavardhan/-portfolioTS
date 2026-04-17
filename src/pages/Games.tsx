@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Gamepad2, ArrowLeft, Play } from "lucide-react";
+import { Gamepad2, ArrowLeft, Play, Brush } from "lucide-react";
 import Header from "@/components/portfolio/Header";
 import Footer from "@/components/portfolio/Footer";
 import portfolioData from "@/data/portfolio.json";
@@ -16,6 +16,14 @@ const gamesList = [
     icon: Gamepad2,
     color: "text-primary",
   },
+  {
+    id: "scrble",
+    name: "Scrble",
+    description: "Multiplayer real-time drawing and guessing game.",
+    path: "/games/scrble",
+    icon: Brush,
+    color: "text-blue-400",
+  }
 ];
 
 const Games = () => {
