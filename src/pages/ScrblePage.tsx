@@ -13,6 +13,7 @@ import { supabase } from '@/lib/supabase';
 import ScrbleLobby from '@/components/scrble/ScrbleLobby';
 import ScrbleBoard from '@/components/scrble/ScrbleBoard';
 import ScrbleChat from '@/components/scrble/ScrbleChat';
+import ScrbleWinner from '@/components/scrble/ScrbleWinner';
 import type { Player, GameState, Stroke, ChatMessage } from '@/components/scrble/types';
 
 const FALLBACK_WORDS = [
@@ -36,6 +37,8 @@ export default function ScrblePage() {
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [targetPlayers, setTargetPlayers] = useState(2);
+  const [winnerName, setWinnerName] = useState('');
+  const [previousWord, setPreviousWord] = useState('');
   
   const channelRef = useRef<RealtimeChannel | null>(null);
   const localPlayerIdRef = useRef(`player-${Math.random().toString(36).substring(2, 9)}`);
@@ -119,11 +122,6 @@ export default function ScrblePage() {
         setMessages((prev) => [...prev, payload.message]);
       })
       .on('broadcast', { event: 'CORRECT_GUESS' }, ({ payload }) => {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
         setMessages((prev) => [...prev, {
           id: Date.now().toString(),
           senderId: 'system',
@@ -132,8 +130,29 @@ export default function ScrblePage() {
           isCorrectGuess: true,
           system: true
         }]);
-        setGameState('lobby'); // End round
+        
+        setWinnerName(payload.playerName);
+        setPreviousWord(payload.word);
+        setGameState('postgame'); // End round
+        
+        // Fire confetti for everyone!
+        const duration = 3000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+        const interval: any = setInterval(function() {
+          const timeLeft = animationEnd - Date.now();
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+          const particleCount = 50 * (timeLeft / duration);
+          confetti(Object.assign({}, defaults, { particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
+        }, 250);
+      })
+      .on('broadcast', { event: 'BACK_TO_LOBBY' }, () => {
+        setGameState('lobby');
         setActiveWord('');
+        setWinnerName('');
+        setPreviousWord('');
       });
 
     await channel.subscribe(async (status) => {
@@ -207,21 +226,29 @@ export default function ScrblePage() {
     if (gameState !== 'playing') return;
 
     if (text.toLowerCase() === activeWord.toLowerCase() && !isHost) {
-      // Correct guess
+      // Correct guess logic
       channelRef.current?.send({
         type: 'broadcast',
         event: 'CORRECT_GUESS',
         payload: { playerName: localPlayer?.name, word: activeWord }
       });
-      // Fire local confetti
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
       // End game locally
-      setGameState('lobby');
-      setActiveWord('');
+      setWinnerName(localPlayer?.name || 'You');
+      setPreviousWord(activeWord);
+      setGameState('postgame');
+      
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+      const interval: any = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
+      }, 250);
+
       return;
     }
 
@@ -240,6 +267,18 @@ export default function ScrblePage() {
       type: 'broadcast',
       event: 'CHAT_MESSAGE',
       payload: { message }
+    });
+  };
+
+  const handleBackToLobby = () => {
+    if (!isHost) return;
+    setGameState('lobby');
+    setActiveWord('');
+    setWinnerName('');
+    setPreviousWord('');
+    channelRef.current?.send({
+      type: 'broadcast',
+      event: 'BACK_TO_LOBBY'
     });
   };
 
@@ -270,6 +309,13 @@ export default function ScrblePage() {
             localPlayerId={localPlayerIdRef.current}
             targetPlayers={targetPlayers}
             setTargetPlayers={setTargetPlayers}
+          />
+        ) : gameState === 'postgame' ? (
+          <ScrbleWinner 
+            winnerName={winnerName} 
+            word={previousWord} 
+            isHost={isHost} 
+            onNextRound={handleBackToLobby} 
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 h-[70vh] min-h-[600px]">
