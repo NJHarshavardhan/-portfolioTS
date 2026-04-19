@@ -58,7 +58,6 @@ const Header = () => {
 
     if (location.pathname !== "/") {
       navigate("/");
-      // Wait for navigation to complete before scrolling
       setTimeout(() => {
         document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
       }, 100);
@@ -75,69 +74,97 @@ const Header = () => {
   return (
     <>
       <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "glass border-b border-white/5 py-2 shadow-2xl" : "bg-transparent py-4"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 w-full"
       >
-        <nav className="container mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <motion.span
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-heading font-bold text-foreground cursor-pointer flex items-center gap-1"
-              onClick={handleLogoClick}
-            >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-primary/80">{en.header.logo}</span>
-              <span className="text-primary text-3xl">.</span>
-            </motion.span>
+        <div 
+          className={`flex flex-col w-full transition-all duration-500 overflow-hidden ${
+            scrolled ? "bg-background/90 backdrop-blur-xl border-b border-primary/20 shadow-[0_10px_30px_-15px_rgba(168,85,247,0.3)]" : "bg-background/40 backdrop-blur-md border-b border-border/10"
+          }`}
+        >
+          {/* OS Window Controls (Terminal Vibe) */}
+          <div className={`w-full flex items-center px-4 gap-1.5 transition-all duration-500 ${scrolled ? 'h-4 bg-black/50 border-b border-primary/20' : 'opacity-0 h-0 hidden'}`}>
+            <div className="w-1.5 h-1.5 rounded-full bg-destructive/80" />
+            <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/80" />
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500/80" />
+            <span className="text-[8px] text-muted-foreground font-mono ml-4 tracking-wider flex-1 text-left opacity-50 uppercase">
+              ~/app/nav.tsx
+            </span>
           </div>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <motion.button
-                key={item}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleNavClick(item)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer relative group"
+          <div className="flex items-center justify-between px-4 md:px-8 py-1 md:py-1.5">
+            {/* Blinking Terminal Logo */}
+            <div className="flex items-center">
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="text-base md:text-lg font-mono font-bold text-foreground cursor-pointer flex items-center"
+                onClick={handleLogoClick}
               >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary rounded-full group-hover:w-full transition-all duration-300" />
-              </motion.button>
-            ))}
-            <ThemeToggle />
-          </div>
+                <span className="text-primary mr-1.5 opacity-90 tracking-widest">{">"}</span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{en.header.logo.toLowerCase()}</span>
+                <motion.span 
+                  animate={{ opacity: [1, 0] }} 
+                  transition={{ repeat: Infinity, duration: 0.9, ease: "linear" }} 
+                  className="w-1.5 h-4 bg-primary ml-1"
+                />
+              </motion.div>
+            </div>
 
-          {/* Mobile hamburger */}
-          <div className="flex md:hidden items-center gap-3">
-            <ThemeToggle />
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="relative w-10 h-10 flex items-center justify-center cursor-pointer z-[60]"
-              aria-label="Toggle menu"
-            >
-              <motion.span
-                animate={mobileOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }}
-                className="absolute w-6 h-0.5 bg-foreground block rounded-full"
-                transition={{ duration: 0.3 }}
-              />
-              <motion.span
-                animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                className="absolute w-6 h-0.5 bg-foreground block rounded-full"
-                transition={{ duration: 0.2 }}
-              />
-              <motion.span
-                animate={mobileOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }}
-                className="absolute w-6 h-0.5 bg-foreground block rounded-full"
-                transition={{ duration: 0.3 }}
-              />
-            </button>
-          </div>
-        </nav>
+            {/* Desktop Nav - Code Tags */}
+            <nav className="hidden md:flex items-center gap-6">
+              {navItems.map((item) => (
+                <motion.button
+                  key={item}
+                  whileHover="hover"
+                  initial="initial"
+                  onClick={() => handleNavClick(item)}
+                  className="text-sm font-mono font-bold text-muted-foreground hover:text-foreground transition-colors cursor-pointer relative group flex items-center h-6 overflow-hidden"
+                >
+                  <motion.span 
+                    variants={{ initial: { x: 20, opacity: 0 }, hover: { x: 0, opacity: 1 } }}
+                    transition={{ ease: "easeOut", duration: 0.2 }}
+                    className="text-primary mr-1 text-sm"
+                  >
+                    &lt;
+                  </motion.span>
 
+                  <span className="tracking-wide uppercase z-10">{item}</span>
+                  
+                  <motion.span 
+                    variants={{ initial: { x: -20, opacity: 0 }, hover: { x: 0, opacity: 1 } }}
+                    transition={{ ease: "easeOut", duration: 0.2 }}
+                    className="text-primary ml-1 text-sm"
+                  >
+                    /&gt;
+                  </motion.span>
+                </motion.button>
+              ))}
+            </nav>
+
+            {/* Actions */}
+            <div className="flex items-center gap-2">
+              <div className="p-0.5 rounded border border-border/50 bg-background/50 hidden md:block">
+                <ThemeToggle />
+              </div>
+              
+              {/* Mobile hamburger (Code Bracket Style) */}
+              <div className="md:hidden flex items-center">
+                <div className="p-0.5 rounded border border-border/50 bg-background/50 mr-1.5">
+                   <ThemeToggle />
+                </div>
+                <button
+                  onClick={() => setMobileOpen(!mobileOpen)}
+                  className="relative h-6 px-1.5 flex items-center justify-center cursor-pointer bg-primary/10 rounded border border-primary/20 text-primary hover:bg-primary/30 transition-colors font-mono font-bold text-xs"
+                  aria-label="Toggle menu"
+                >
+                  {mobileOpen ? "{..}" : "[+]"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </motion.header>
 
       {/* Mobile fullscreen drawer */}
