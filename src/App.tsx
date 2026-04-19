@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Clarity from "@microsoft/clarity";
 import React, { useEffect, Suspense, lazy } from "react";
+import CodePatternBackground from "@/components/portfolio/CodePatternBackground";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ function App() {
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
+          <CodePatternBackground />
           <Toaster />
           <Sonner />
           <BrowserRouter
