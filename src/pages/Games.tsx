@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Gamepad2, ArrowLeft, Play, Brush } from "lucide-react";
+import { Gamepad2, ArrowLeft, Play, Brush, ShieldAlert } from "lucide-react";
 import Header from "@/components/portfolio/Header";
 import Footer from "@/components/portfolio/Footer";
 import portfolioData from "@/data/portfolio.json";
@@ -23,6 +23,14 @@ const gamesList = [
     path: "/games/scrble",
     icon: Brush,
     color: "text-blue-400",
+  },
+  {
+    id: "heist",
+    name: "Puzzle Heist",
+    description: "Team-based escape room. Crack codes faster than the enemy.",
+    path: "/games/heist",
+    icon: ShieldAlert,
+    color: "text-red-500",
   }
 ];
 
