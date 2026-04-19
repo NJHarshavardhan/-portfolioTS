@@ -173,20 +173,20 @@ const Experience = ({ experience }: ExperienceProps) => {
 
         {/* Mobile: CardSwap only */}
         <ScrollFloat
-          className="md:hidden flex justify-center mt-12"
+          className="md:hidden flex justify-center mt-12 pr-6"
           intensity={18}
         >
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="w-full max-w-sm h-[360px]"
+            className="w-[280px] sm:w-[320px] h-[360px] relative -ml-4"
           >
             <CardSwap
               width="100%"
               height={340}
-              cardDistance={50}
-              verticalDistance={60}
+              cardDistance={30}
+              verticalDistance={40}
               delay={6000}
               pauseOnHover={true}
               skewAmount={4}
