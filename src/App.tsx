@@ -18,6 +18,8 @@ const Games = lazy(() => import("@/pages/Games"));
 const TicTacToePage = lazy(() => import("@/pages/TicTacToePage"));
 const ScrblePage = lazy(() => import("@/pages/ScrblePage"));
 const HeistPage = lazy(() => import("@/pages/HeistPage"));
+const SudokuPage = lazy(() => import("@/pages/SudokuPage"));
+const ZipPage = lazy(() => import("@/pages/ZipPage"));
 
 function App() {
   useEffect(() => {
@@ -50,6 +52,8 @@ function App() {
               <Route path="/games/tictactoe" element={<TicTacToePage />} />
               <Route path="/games/scrble" element={<ScrblePage />} />
               <Route path="/games/heist" element={<HeistPage />} />
+              <Route path="/games/sudoku" element={<SudokuPage />} />
+              <Route path="/games/zip" element={<ZipPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

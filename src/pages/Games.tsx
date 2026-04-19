@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Gamepad2, ArrowLeft, Play, Brush, ShieldAlert } from "lucide-react";
+import { Gamepad2, ArrowLeft, Play, Brush, ShieldAlert, Grid3X3, Zap } from "lucide-react";
 import Header from "@/components/portfolio/Header";
 import Footer from "@/components/portfolio/Footer";
 import portfolioData from "@/data/portfolio.json";
@@ -31,6 +31,22 @@ const gamesList = [
     path: "/games/heist",
     icon: ShieldAlert,
     color: "text-red-500",
+  },
+  {
+    id: "sudoku",
+    name: "Mini Sudoku",
+    description: "The classic logic puzzle in a quick 4x4 grid. Sharp minds only.",
+    path: "/games/sudoku",
+    icon: Grid3X3,
+    color: "text-green-400",
+  },
+  {
+    id: "zip",
+    name: "Zip",
+    description: "LinkedIn-style path puzzle. Connect the dots and fill the grid.",
+    path: "/games/zip",
+    icon: Zap,
+    color: "text-yellow-400",
   }
 ];
 
